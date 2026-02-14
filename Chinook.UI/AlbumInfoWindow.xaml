@@ -1,0 +1,27 @@
+﻿<Window x:Class="Chinook.UI.AlbumInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chinook.UI"
+        mc:Ignorable="d"
+        Title="AlbumInfoWindow"  Width="800">
+  <Grid>
+    <StackPanel >
+      <local:AlbumInfoControl HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" x:Name="AlbumInfoControl"  />
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="152">
+        <StackPanel.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform Angle="-0.528"/>
+            <TranslateTransform/>
+          </TransformGroup>
+        </StackPanel.RenderTransform>
+        <Button Content="close" x:Name="CloseBtn" Click="CloseBtn_Click" Width="38"/>
+        <Button Content="ok" x:Name="OkBtn" Click="OkBtn_Click" Width="38"/>
+        <Button Content="cancel" x:Name="CancelBtn" Click="CancelBtn_Click"/>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>

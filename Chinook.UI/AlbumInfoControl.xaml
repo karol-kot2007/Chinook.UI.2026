@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Chinook.UI.AlbumInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chinook.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+  <StackPanel Orientation="Vertical" >
+    <local:AlbumSwapper x:Name="ArtistSwapper" Height="25"/>
+    <local:AlbumSwapper x:Name="AlbumSwapper"  Height="25" Margin="0px 10px 0px 20px"/>
+    <StackPanel Orientation="Horizontal">
+      <Label Content="Album:"/>
+      <TextBox Text=""    x:Name="AlbumName" Width="110" TextChanged="AlbumName_TextChanged" />
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" Height="100px">
+      <Label Content="Artist:" Height="30" VerticalAlignment="Center" Width="50" />
+      <TextBox Text=" " VerticalAlignment="Center" x:Name="ArtistName" Height="28" Width="110" />
+    </StackPanel>
+    <DataGrid x:Name="GridAlbum" AutoGenerateColumns="False" Width="624" SelectionChanged="GridAlbum_SelectionChanged" >
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True"  />
+        <DataGridTextColumn Header="TrackName: " Binding="{Binding Name}"  x:Name="TrackNameButton"  IsReadOnly="True" />
+        <DataGridTextColumn Header="Price: " Binding="{Binding UnitPrice}"  x:Name="PriceButton"  IsReadOnly="True" />
+        <DataGridTextColumn Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />
+        <DataGridTextColumn Header="TrackId: " Binding="{Binding trackId}"  x:Name="trackId"  IsReadOnly="True" />
+   
+
+        <DataGridTemplateColumn>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Button x:Name="PlayBtn" Click="PlayBtn_Click">Play</Button>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn>
+         
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+  </StackPanel>
+</UserControl>
