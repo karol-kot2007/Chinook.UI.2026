@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Issue3\Chinook.DAL\Chinook.DAL.csproj" />
+    <ProjectReference Include="..\Chinook.DAL\Chinook.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
