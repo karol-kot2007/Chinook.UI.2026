@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chinook.UI", "Chinook.UI\Chinook.UI.csproj", "{6CA333A5-8A68-4325-9779-082295C0D2ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chinook.UI.Windows", "Chinook.UI\Chinook.UI.Windows.csproj", "{6CA333A5-8A68-4325-9779-082295C0D2ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AlbumInfoControl", "AlbumInfoControl", "{2EB4F354-57B2-448D-BFCB-CE9F6997E8E4}"
 EndProject

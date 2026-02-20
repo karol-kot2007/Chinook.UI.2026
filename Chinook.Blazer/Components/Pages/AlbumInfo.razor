@@ -1,5 +1,5 @@
 ﻿@page "/albumInfo"
-
+@using Chinook.DAL
 
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
     <h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
@@ -29,12 +29,7 @@
         </tr>
     </thead>
     <tbody>
-      @*
-        foreach(){
-           <tr>
-                </tr>
-        } 
-      *@
+    
         <tr>
             <th scope="row">1</th> 
             <td>Mark</td>
@@ -56,5 +51,5 @@
     </tbody>
 </table>
 @code {
-
+    ArtistContext context = new ArtistContext();
 }

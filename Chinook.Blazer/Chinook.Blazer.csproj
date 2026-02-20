@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Issue3\Chinook.DAL\Chinook.DAL.csproj" />
+   
+  </ItemGroup>
+
 </Project>
