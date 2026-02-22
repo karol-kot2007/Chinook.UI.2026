@@ -27,13 +27,18 @@ namespace Chinook.UI
     {
 
       InitializeComponent();
-
+      this.ArtistModel = new ArtistModel();
       AlbumInfoControl.AlbumSwapper.OnNext += AlbumInfoControl_OnNext;
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;
       AlbumInfoControl.ArtistSwapper.OnNext += ArtistInfoControl_OnNext;
       AlbumInfoControl.ArtistSwapper.OnPrev += ArtistInfoControl_onPrev;
+     
     }
 
+    //public HandleError()
+    //{
+
+    //}
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
       Debug.WriteLine("btn clicked Prev !!!!!!!!!!" + ArtistModel.MaxAlbumIndex + " " + ArtistModel.CurrentAlbumIndex);
@@ -50,13 +55,13 @@ namespace Chinook.UI
       ArtistModel.CurrentArtistIndex--;
       if (ArtistModel.CurrentArtistIndex < 0)
       {
-       ArtistModel.CurrentArtistIndex++;
+       ArtistModel.CurrentArtistIndex +=1;
       }
       SetModel();
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-       ArtistModel.CurrentArtistIndex=ArtistModel.CurrentArtistIndex+24;
+       ArtistModel.CurrentArtistIndex+=1;
       if (ArtistModel.CurrentArtistIndex > ArtistModel.MaxArtistIndex)
       {
         ArtistModel.CurrentArtistIndex--;
@@ -175,10 +180,12 @@ namespace Chinook.UI
     private void SetModel()
     {
       ArtistContext context = new ArtistContext();
-      this.ArtistModel = new ArtistModel();
+    //  this.ArtistModel = new ArtistModel();
      // var model = BuildModelFromView(context);
+         
      var model = ArtistModel.BuildModel(context);
-
+      AlbumInfoControl.ArtistName.Text = model.ArtistInfo.Name;
+      AlbumInfoControl.AlbumName.Text = model.AlbumInfo.Name;
       if (model.ArtistInfo.Name == null )
         return;
       SetModel(model);

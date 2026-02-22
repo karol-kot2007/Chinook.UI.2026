@@ -1,64 +1,68 @@
 ﻿@page "/albumInfo"
 @using Chinook.Models
 @using Chinook.DAL
+
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
     <h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
     <div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
-        <button type="button" class="btn btn-outline-dark shadow-lg">Primary</button>
+        <button type="button" class="btn btn-outline-dark shadow-lg">Previous</button>
         <label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
-            AC/DC
+            @artistName
         </label>
-        <button type="button" class="btn btn-outline-dark shadow-lg">Primary</button>
+        <button type="button" class="btn btn-outline-dark shadow-lg">Next</button>
     </div>
 
     <div class="d-flex gap-1 flex-row justify-content-between h-50 w-100">
-        <button type="button" class="btn btn-outline-dark shadow-lg">Primary</button>
+        <button type="button" class="btn btn-outline-dark shadow-lg">Previous</button>
         <label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
-            e
+            @albumName
         </label>
-        <button type="button" class="btn btn-outline-dark shadow-lg">Primary</button>
+        <button type="button" class="btn btn-outline-dark shadow-lg">Next</button>
     </div>
 </div>
 <table class="table m-4">
+
     <thead>
         <tr>
             <th scope="col">#</th>  
-            <th scope="col">Composer</th>
+            <th scope="col">artistName</th>
             <th scope="col">Track name</th>
             <th scope="col">Price</th>
         </tr>
     </thead>
     <tbody>
-
-        <tr>
-            <th scope="row">1</th> 
-            <td>Mark</td>
-            <td>Jacob</td>  
-            <td>3</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>John</td>
-            <td>Some track</td>
-            <td>4.99</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Miles Davis</td>
-            <td>So What</td>
-            <td>@a</td>
-        </tr>
+        @foreach(var tracks in artistModel.BuildModel(context).Tracks){
+            <tr>
+                <th scope="row">@i</th>
+                <td>@artistName</td>
+                <td>@tracks.Name</td>
+                <td>@tracks.UnitPrice$</td>
+            
+            </tr>
+                i++;
+        }
     </tbody>
 </table>
 @code {
-    string a = string.Empty;
-   
+    int i = 1;
+    string albumName = "";
+    string artistName = "";
+    ArtistContext context = new ArtistContext();
+    ArtistModel artistModel = new();
+
+
+    private List<TrackInfo> l = new();
     protected override void OnInitialized()
     {
-        ArtistContext context = new ArtistContext();
         var art = new ArtistModel();
         var model = art.BuildModel(context);
-        a = model.AlbumInfo.Name;
+    
+   
+        artistName = model.ArtistInfo.Name;
+        albumName = model.AlbumInfo.Name;
+        // var tracks = model.Tracks;
+ 
+
     }
-  
+    
 }

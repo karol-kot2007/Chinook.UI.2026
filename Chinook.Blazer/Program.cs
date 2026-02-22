@@ -1,8 +1,13 @@
 using Chinook.Blazer.Components;
+using Chinook.DAL;
 using SQLitePCL;
+
 var builder = WebApplication.CreateBuilder(args);
+
 Batteries_V2.Init();
 // Add services to the container.
+// W sekcji builder.Services
+builder.Services.AddDbContext<ArtistContext>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
