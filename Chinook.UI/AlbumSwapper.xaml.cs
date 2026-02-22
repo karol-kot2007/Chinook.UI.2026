@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using Chinook.Models;
+using System.Windows.Controls;
 namespace Chinook.UI
 {
   public partial class AlbumSwapper : UserControl

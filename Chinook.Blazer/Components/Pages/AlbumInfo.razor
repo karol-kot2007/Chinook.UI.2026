@@ -1,12 +1,12 @@
 ﻿@page "/albumInfo"
+@using Chinook.Models
 @using Chinook.DAL
-
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
     <h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
-  <div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
+    <div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
         <button type="button" class="btn btn-outline-dark shadow-lg">Primary</button>
         <label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
-           AC/DC
+            AC/DC
         </label>
         <button type="button" class="btn btn-outline-dark shadow-lg">Primary</button>
     </div>
@@ -29,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-    
+
         <tr>
             <th scope="row">1</th> 
             <td>Mark</td>
@@ -46,10 +46,19 @@
             <th scope="row">3</th>
             <td>Miles Davis</td>
             <td>So What</td>
-            <td>1.99</td>
+            <td>@a</td>
         </tr>
     </tbody>
 </table>
 @code {
-    ArtistContext context = new ArtistContext();
+    string a = string.Empty;
+   
+    protected override void OnInitialized()
+    {
+        ArtistContext context = new ArtistContext();
+        var art = new ArtistModel();
+        var model = art.BuildModel(context);
+        a = model.AlbumInfo.Name;
+    }
+  
 }

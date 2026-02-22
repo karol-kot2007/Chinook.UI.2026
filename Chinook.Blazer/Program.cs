@@ -1,7 +1,7 @@
 using Chinook.Blazer.Components;
-
+using SQLitePCL;
 var builder = WebApplication.CreateBuilder(args);
-
+Batteries_V2.Init();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
