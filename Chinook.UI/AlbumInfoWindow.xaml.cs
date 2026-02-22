@@ -45,7 +45,7 @@ namespace Chinook.UI
       ArtistModel.CurrentAlbumIndex--;
       if (ArtistModel.CurrentAlbumIndex < 0)
       {
-        ArtistModel.CurrentAlbumIndex = ArtistModel.MaxAlbumIndex;
+        ArtistModel.CurrentAlbumIndex = ArtistModel.MaxAlbumIndex-1;
       }
       SetModel();
     }
@@ -53,15 +53,17 @@ namespace Chinook.UI
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
       ArtistModel.CurrentArtistIndex--;
+      ArtistModel.CurrentAlbumIndex = 0;
       if (ArtistModel.CurrentArtistIndex < 0)
       {
-       ArtistModel.CurrentArtistIndex +=1;
+       ArtistModel.CurrentArtistIndex = ArtistModel.MaxArtistIndex - 1;
       }
       SetModel();
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-       ArtistModel.CurrentArtistIndex+=1;
+       ArtistModel.CurrentArtistIndex++;
+      ArtistModel.CurrentAlbumIndex = 0;
       if (ArtistModel.CurrentArtistIndex > ArtistModel.MaxArtistIndex)
       {
         ArtistModel.CurrentArtistIndex--;
@@ -75,6 +77,7 @@ namespace Chinook.UI
       if (ArtistModel.CurrentAlbumIndex == ArtistModel.MaxAlbumIndex)
       {
         ArtistModel.CurrentAlbumIndex = 0;
+   
       }
   
       SetModel();
