@@ -34,16 +34,6 @@ namespace Chinook.UI
       AlbumInfoControl.ArtistSwapper.OnPrev += ArtistInfoControl_onPrev;
      
     }
-    public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
-    {
-      Debug.WriteLine("btn clicked Prev !!!!!!!!!!" + ArtistModel.MaxAlbumIndex + " " + ArtistModel.CurrentAlbumIndex);
-      ArtistModel.CurrentAlbumIndex--;
-      if (ArtistModel.CurrentAlbumIndex < 0)
-      {
-        ArtistModel.CurrentAlbumIndex = ArtistModel.MaxAlbumIndex-1;
-      }
-      SetModel();
-    }
 
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
@@ -59,13 +49,25 @@ namespace Chinook.UI
     {
        ArtistModel.CurrentArtistIndex++;
       ArtistModel.CurrentAlbumIndex = 0;
-      if (ArtistModel.CurrentArtistIndex > ArtistModel.MaxArtistIndex)
+      if (ArtistModel.CurrentArtistIndex == ArtistModel.MaxArtistIndex)
       {
-        ArtistModel.CurrentArtistIndex--;
+        ArtistModel.CurrentArtistIndex = 0;
       }
       
       SetModel();
     }
+
+    public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
+    {
+      Debug.WriteLine("btn clicked Prev !!!!!!!!!!" + ArtistModel.MaxAlbumIndex + " " + ArtistModel.CurrentAlbumIndex);
+      ArtistModel.CurrentAlbumIndex--;
+      if (ArtistModel.CurrentAlbumIndex < 0)
+      {
+        ArtistModel.CurrentAlbumIndex = ArtistModel.MaxAlbumIndex - 1;
+      }
+      SetModel();
+    }
+
     public void AlbumInfoControl_OnNext(object? sender, EventArgs e)
     {
       ArtistModel.CurrentAlbumIndex++;
