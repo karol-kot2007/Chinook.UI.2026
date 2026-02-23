@@ -1,11 +1,11 @@
 ﻿@page "/albumInfo"
 @using Chinook.Models
 @using Chinook.DAL
-
+@rendermode InteractiveServer
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
     <h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
     <div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
-        <button type="button" class="btn btn-outline-dark shadow-lg">Previous</button>
+        <button type="button" class="btn btn-outline-dark shadow-lg" @onclick="NextArtist">Previous</button>
         <label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
             @artistName
         </label>
@@ -17,7 +17,7 @@
         <label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
             @albumName
         </label>
-        <button type="button" class="btn btn-outline-dark shadow-lg">Next</button>
+        <button type="button" class="btn btn-outline-dark shadow-lg" >Next</button>
     </div>
 </div>
 <table class="table m-4">
@@ -37,9 +37,9 @@
                 <td>@artistName</td>
                 <td>@tracks.Name</td>
                 <td>@tracks.UnitPrice$</td>
-            
+
             </tr>
-                i++;
+            i++;
         }
     </tbody>
 </table>
@@ -47,22 +47,30 @@
     int i = 1;
     string albumName = "";
     string artistName = "";
-    ArtistContext context = new ArtistContext();
+    ArtistContext context = new ();
     ArtistModel artistModel = new();
 
 
     private List<TrackInfo> l = new();
     protected override void OnInitialized()
     {
-        var art = new ArtistModel();
-        var model = art.BuildModel(context);
-    
-   
+        var model = artistModel.BuildModel(context);
+
+
         artistName = model.ArtistInfo.Name;
         albumName = model.AlbumInfo.Name;
         // var tracks = model.Tracks;
- 
 
+
+    }
+
+    void NextArtist(){
+
+        artistModel.CurrentArtistIndex++;
+        var NewModel = artistModel.BuildModel(context);
+
+        artistName = NewModel.ArtistInfo.Name;
+        albumName = NewModel.AlbumInfo.Name;
     }
     
 }
