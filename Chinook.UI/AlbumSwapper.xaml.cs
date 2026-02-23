@@ -33,7 +33,7 @@ namespace Chinook.UI
 
     internal void Bind(string prefix,int current, int max, string name)
     {
-
+      
       Content.Text =prefix+ " : " + name + " " +(current + 1)+ " " + "/"+ max + " ";
       //CurrentAlbum.Text ="Album : " + ArtistName + " " + (currentAlb + 1) + " " + "/ "+  maxAlb + " ";
      

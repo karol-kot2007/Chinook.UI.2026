@@ -34,11 +34,6 @@ namespace Chinook.UI
       AlbumInfoControl.ArtistSwapper.OnPrev += ArtistInfoControl_onPrev;
      
     }
-
-    //public HandleError()
-    //{
-
-    //}
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
       Debug.WriteLine("btn clicked Prev !!!!!!!!!!" + ArtistModel.MaxAlbumIndex + " " + ArtistModel.CurrentAlbumIndex);
@@ -116,33 +111,6 @@ namespace Chinook.UI
                 eb.Property(v => v.artistName).HasColumnName("artistName");
               });
     }
-    private AlbumInfoModel BuildModelFromView(ArtistContext context)
-    {
-      ArtistModel.MaxArtistIndex = context.AlbumTracks.Count();
-      var model = new AlbumInfoModel();
-
-
-      var artist = context.AlbumTracks.ElementAt(ArtistModel.CurrentArtistIndex);
-      model.ArtistInfo.Name = artist.artistName;//
-      model.ArtistInfo.Id = artist.artistId;
-      model.ArtistInfo.Max = ArtistModel.MaxArtistIndex;
-      model.ArtistInfo.Current = ArtistModel.CurrentArtistIndex;
-      model.ArtistInfo.Max = context.Artists.Count();
-    
-      var tracks = context.Tracks.First();
-      model.TrackInfo.Id = tracks.TrackId;
-      model.TrackInfo.Name = tracks.Name;
-      var albums = context.AlbumTracks.Where(a => a.artistId == model.ArtistInfo.Id).ToList();
-      //ArtistModel.MaxAlbumIndex = albums.Count;
-      ArtistModel.MaxAlbumIndex = albums.Count;
-      var album = albums[ArtistModel.CurrentAlbumIndex];
-      model.AlbumInfo.Id = album.albumId;
-      model.AlbumInfo.Name = album.albumName;
-      model.AlbumInfo.Max = ArtistModel.MaxAlbumIndex;
-      model.AlbumInfo.Current = ArtistModel.CurrentAlbumIndex;
-      model.Tracks = context.Tracks.Where(i => i.AlbumId == album.albumId).ToList();
-      return model;
-    }
 
     
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
@@ -183,14 +151,23 @@ namespace Chinook.UI
     private void SetModel()
     {
       ArtistContext context = new ArtistContext();
-    //  this.ArtistModel = new ArtistModel();
-     // var model = BuildModelFromView(context);
          
      var model = ArtistModel.BuildModel(context);
+      if (model.Tracks == null)
+      {
+   
+        AlbumInfoControl.AlbumName.Text = "no match";
+        AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
+
+
+      }
+      else
+      {
+        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.Name;
+        AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
+       
+      }
       AlbumInfoControl.ArtistName.Text = model.ArtistInfo.Name;
-      AlbumInfoControl.AlbumName.Text = model.AlbumInfo.Name;
-      if (model.ArtistInfo.Name == null )
-        return;
       SetModel(model);
     }
 
