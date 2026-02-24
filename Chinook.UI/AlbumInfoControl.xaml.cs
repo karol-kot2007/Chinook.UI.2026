@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Collections;
 using Chinook.DAL.Models;
 using System.Windows.Media;
+using Chinook.Models;
 namespace Chinook.UI
 {
   public partial class AlbumInfoControl : UserControl
@@ -14,7 +15,7 @@ namespace Chinook.UI
     public Track LocalPath { get; set; }
     public Button CancelBtn { get; set; }
     // public AlbumInfo AlbumName { get; set; }
-    public static object Album { get; private set; }
+    public static object   Album { get; private set; }
 
     public AlbumInfoControl()
     {

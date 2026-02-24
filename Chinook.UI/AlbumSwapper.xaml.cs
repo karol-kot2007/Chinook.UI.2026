@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using Chinook.Models;
+using System.Windows.Controls;
 namespace Chinook.UI
 {
   public partial class AlbumSwapper : UserControl
@@ -32,7 +33,7 @@ namespace Chinook.UI
 
     internal void Bind(string prefix,int current, int max, string name)
     {
-
+      
       Content.Text =prefix+ " : " + name + " " +(current + 1)+ " " + "/"+ max + " ";
       //CurrentAlbum.Text ="Album : " + ArtistName + " " + (currentAlb + 1) + " " + "/ "+  maxAlb + " ";
      
