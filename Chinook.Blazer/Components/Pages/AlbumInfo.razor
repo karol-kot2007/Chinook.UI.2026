@@ -3,9 +3,10 @@
 @using Chinook.DAL
 @rendermode InteractiveServer
 @{
-	var model = artistModel.BuildModel(context);
-	artistName = model.ArtistInfo.Name;
-	albumName = model.AlbumInfo.Name;
+	//var model = artistModel.BuildModel(context);
+	var model = repository.BuildModel(albumInfoModel);
+	 artistName = model.ArtistInfo.Name;
+	 albumName = model.AlbumInfo.Name;
 	i = 1;
 }
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
@@ -75,8 +76,8 @@
 	string artistName = "";
 	ArtistContext context = new();
 	ArtistModel artistModel = new();
-
-
+	Repository repository = new();
+	AlbumInfoModel albumInfoModel = new();
 	protected override void OnInitialized()
 	{
 		var model = artistModel.BuildModel(context);
@@ -121,12 +122,13 @@
 
 	public void ArtistInfoControl_OnNext()
 	{
-		artistModel.CurrentArtistIndex++;
-		artistModel.CurrentAlbumIndex = 0;
-		if (artistModel.CurrentArtistIndex == artistModel.MaxArtistIndex)
-		{
-			artistModel.CurrentArtistIndex = 0;
-		}
+		// artistModel.CurrentArtistIndex++;
+		// artistModel.CurrentAlbumIndex = 0;
+		// if (artistModel.CurrentArtistIndex == artistModel.MaxArtistIndex)
+		// {
+		// 	artistModel.CurrentArtistIndex = 0;
+		// }
+		repository.BuildModel(albumInfoModel, operation: Repository.Operation.NextArtist);
 	}
 
 

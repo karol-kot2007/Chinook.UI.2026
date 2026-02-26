@@ -3,6 +3,7 @@ using Chinook.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,10 @@ namespace Chinook.Models
   }
   public class Repository : IRepository
   {
-    public ArtistContext ArtistContext { get; set; }
-    // public ArtistModel ArtistModel { get; set; }
+    public ArtistContext ArtistContext { get; set; } = new ArtistContext();
+    public ArtistModel artistModel { get; set; } = new ArtistModel();
     public int MaxAlbumIndex { get; set; }
-    public int MaxArtistIndex { get; set; }
+    public int MaxArtistIndex { get; set; } 
 
     public Repository()
     {
@@ -30,30 +31,73 @@ namespace Chinook.Models
     }
     public enum Operation
     {
-      NextArtist, PrevArtist, NextTrack, PrevTrack
+      NextArtist, PrevArtist, NextAlbum, PrevAlbum
     }
+
 
 
     public AlbumInfoModel BuildModel(AlbumInfoModel? currentModel = null, Operation? operation = null)
     {
-      var a = new ArtistModel();
-      var ArtistContext = new ArtistContext();
       if (currentModel != null)
       {
-
-        var artist = ArtistContext.Artists.ElementAt(a.CurrentArtistIndex);
         MaxArtistIndex = ArtistContext.Artists.Count();
-        currentModel.ArtistInfo.Name = artist.Name;
+        switch (operation)
+        {
+          case Operation.NextArtist:
+            artistModel.CurrentArtistIndex++;
+            artistModel.CurrentAlbumIndex = 0;
+            if (artistModel.CurrentArtistIndex == MaxArtistIndex)
+            {
+              artistModel.CurrentArtistIndex = 0;
+            }
+            break;
+
+          case Operation.PrevArtist:
+            artistModel.CurrentArtistIndex--;
+            artistModel.CurrentAlbumIndex = 0;
+            if (artistModel.CurrentArtistIndex < 0)
+            {
+              artistModel.CurrentArtistIndex = MaxArtistIndex - 1;
+            }
+            break;
+
+
+        }
+        var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
+
+
         currentModel.ArtistInfo.Id = artist.ArtistId;
+        currentModel.ArtistInfo.Name = artist.Name;
+        currentModel.ArtistInfo.Current = artistModel.CurrentArtistIndex;
         currentModel.ArtistInfo.Max = MaxArtistIndex;
-        currentModel.ArtistInfo.Current = a.CurrentArtistIndex;
         var albums = ArtistContext.Albums.Where(a => a.ArtistId == currentModel.ArtistInfo.Id).ToList();
         MaxAlbumIndex = albums.Count;
-        currentModel.AlbumInfo.Current = a.CurrentAlbumIndex;
+        artistModel.MaxAlbumIndex = MaxAlbumIndex;
+        switch (operation)
+        {
+
+          case Operation.NextAlbum:
+            artistModel.CurrentAlbumIndex++;
+            if (artistModel.CurrentAlbumIndex == artistModel.MaxAlbumIndex)
+            {
+              artistModel.CurrentAlbumIndex = 0;
+
+            }
+            break;
+
+          case Operation.PrevAlbum:
+            artistModel.CurrentAlbumIndex--;
+            if (artistModel.CurrentAlbumIndex < 0)
+            {
+              artistModel.CurrentAlbumIndex = artistModel.MaxAlbumIndex - 1;
+            }
+            break;
+        }
+        currentModel.AlbumInfo.Current = artistModel.CurrentAlbumIndex;
 
         if (MaxAlbumIndex > 0)
         {
-          var album = albums[a.CurrentAlbumIndex];
+          var album = albums[artistModel.CurrentAlbumIndex];
           currentModel.AlbumInfo.Id = album.AlbumId;
           currentModel.AlbumInfo.Name = album.Title;
           currentModel.AlbumInfo.Max = MaxAlbumIndex;
@@ -63,20 +107,20 @@ namespace Chinook.Models
       }
       else if (currentModel == null)
       {
-        //dziala
+
+        var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
         var albumInfoModel = new AlbumInfoModel();
-        var artist = ArtistContext.Artists.ElementAt(0);
-        albumInfoModel.ArtistInfo.Current = a.CurrentArtistIndex;
+        albumInfoModel.ArtistInfo.Current = artistModel.CurrentArtistIndex;
         albumInfoModel.ArtistInfo.Id = artist.ArtistId;
         albumInfoModel.ArtistInfo.Name = artist.Name;
-
-        albumInfoModel.ArtistInfo.Max = 2;
-        albumInfoModel.ArtistInfo.Current = a.CurrentArtistIndex;
+        MaxArtistIndex = 1;
+        albumInfoModel.ArtistInfo.Max = MaxArtistIndex;
+        albumInfoModel.ArtistInfo.Current = artistModel.CurrentArtistIndex;
         var albums = ArtistContext.Albums.Where(a => a.ArtistId == albumInfoModel.ArtistInfo.Id).ToList();
         MaxAlbumIndex = albums.Count;
-        a.CurrentAlbumIndex = 1;
-        MaxArtistIndex = 2;
-        var album = albums[a.CurrentAlbumIndex];
+        artistModel.CurrentAlbumIndex = 1;
+
+        var album = albums[artistModel.CurrentAlbumIndex];
 
 
         albumInfoModel.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
@@ -84,44 +128,6 @@ namespace Chinook.Models
       }
       return null;
     }
-    //public AlbumInfoModel BuildModel(AlbumInfoModel? currentModel = null, Operation? operation= null)
-    //{
 
-    //  var a = new ArtistModel();
-    //  var model = new AlbumInfoModel();
-    //  a.MaxArtistIndex = ArtistContext.Artists.Count();
-    //  //var artist = ArtistContext.Artists.ElementAt(a.CurrentArtistIndex);
-    //  //model.ArtistInfo.Name = artist.Name;
-    //  //model.ArtistInfo.Id = artist.ArtistId;
-    //  model.ArtistInfo.Max = a.MaxArtistIndex;
-    //  model.ArtistInfo.Current = a.CurrentArtistIndex;
-    //  var albums = ArtistContext.Albums.Where(a => a.ArtistId == model.ArtistInfo.Id).ToList();
-    //  a.MaxAlbumIndex = albums.Count;
-    //  model.AlbumInfo.Current = a.CurrentAlbumIndex;
-    //  if(currentModel == null)
-    //  {
-    //    var album = albums[1];
-    //    model.AlbumInfo.Id = album.AlbumId;
-    //    model.AlbumInfo.Name = album.Title;
-    //    model.AlbumInfo.Max = a.MaxAlbumIndex;
-    //    model.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
-    //    a.CurrentArtistIndex = 1;
-    //    var artist = ArtistContext.Artists.ElementAt(a.CurrentArtistIndex);
-    //    model.ArtistInfo.Name = artist.Name;
-    //    model.ArtistInfo.Id = artist.ArtistId;
-    //  }
-    //  else { 
-    //  }
-    //  //if (a.MaxAlbumIndex > 0)
-    //  //{
-    //  //  var album = albums[a.CurrentAlbumIndex];
-    //  //  model.AlbumInfo.Id = album.AlbumId;
-    //  //  model.AlbumInfo.Name = album.Title;
-    //  //  model.AlbumInfo.Max = a.MaxAlbumIndex;
-    //  //  model.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
-    //  //}
-    //  return model;
-    //}
   }
-
 }
