@@ -23,7 +23,7 @@
 		<label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
 			@if (model.Tracks == null)
 			{
-				<h3>No Data</h3>
+				<span>No Data</span>
 			}else
 			{
 				@($"{albumName} {model.AlbumInfo.Current + 1} / {model.AlbumInfo.Max}")

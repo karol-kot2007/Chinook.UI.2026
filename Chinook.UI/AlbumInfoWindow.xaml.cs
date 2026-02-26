@@ -19,8 +19,7 @@ namespace Chinook.UI
     public AlbumInfoModel AlbumInfoModel { get; set; }
     public ArtistInfo ArtistInfo { get; set; }
     public AlbumInfo AlbumInfo { get; set; }
-    public Track trackId { get; set; }
-    public AlbumTrack trackName { get; set; }
+
     public Mode DisplayMode { get; set; }
 
     public AlbumInfoWindow()

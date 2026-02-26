@@ -30,8 +30,6 @@ namespace Chinook.Models
   {
     public AlbumInfo AlbumInfo { get; set; } = new AlbumInfo();
     public ArtistInfo ArtistInfo { get; set; } = new ArtistInfo();
-    public TrackInfo TrackInfo { get; set; } = new TrackInfo();
-    //  public Track trackId { get; set; } = new Track(); 
     public List<Track> Tracks { get; set; }
 
   }
@@ -41,17 +39,17 @@ namespace Chinook.Models
     public int CurrentArtistIndex { get; set; }
     public int MaxAlbumIndex { get; set; }
     public int MaxArtistIndex { get; set; }
+    public AlbumInfoModel AlbumInfo { get; set; }
     public AlbumInfoModel BuildModel(ArtistContext context)
     {
       MaxArtistIndex = context.Artists.Count();
       var model = new AlbumInfoModel();
-      var artistContext = new ArtistContext();
       var artist = context.Artists.ElementAt(CurrentArtistIndex);  
       model.ArtistInfo.Name = artist.Name;
       model.ArtistInfo.Id = artist.ArtistId;
       model.ArtistInfo.Max = MaxArtistIndex;
       model.ArtistInfo.Current = CurrentArtistIndex;
-      var albums = context.Albums.Where(a => a.ArtistId == model.ArtistInfo.Id).ToList();
+        var albums = context.Albums.Where(a => a.ArtistId == model.ArtistInfo.Id).ToList();
       MaxAlbumIndex = albums.Count;
       model.AlbumInfo.Current = CurrentAlbumIndex;
 
