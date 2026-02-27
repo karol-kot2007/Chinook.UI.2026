@@ -1,10 +1,5 @@
-﻿using Chinook.DAL;
-using Chinook.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chinook.DAL.Models;
+using static Chinook.Models.Repository;
 
 namespace Chinook.Models
 {
@@ -39,29 +34,50 @@ namespace Chinook.Models
     public int CurrentArtistIndex { get; set; }
     public int MaxAlbumIndex { get; set; }
     public int MaxArtistIndex { get; set; }
-    public AlbumInfoModel AlbumInfo { get; set; }
-    //public AlbumInfoModel BuildModel(ArtistContext context)
-    //{
-    //  MaxArtistIndex = context.Artists.Count();
-    //  var model = new AlbumInfoModel();
-    //  var artist = context.Artists.ElementAt(CurrentArtistIndex);  
-    //  model.ArtistInfo.Name = artist.Name;
-    //  model.ArtistInfo.Id = artist.ArtistId;
-    //  model.ArtistInfo.Max = MaxArtistIndex;
-    //  model.ArtistInfo.Current = CurrentArtistIndex;
-    //    var albums = context.Albums.Where(a => a.ArtistId == model.ArtistInfo.Id).ToList();
-    //  MaxAlbumIndex = albums.Count;
-    //  model.AlbumInfo.Current = CurrentAlbumIndex;
+    public AlbumInfoModel AlbumInfo { get; set; } = new();
 
-    //  if (MaxAlbumIndex > 0)
-    //  {
-    //    var album = albums[CurrentAlbumIndex];
-    //    model.AlbumInfo.Id = album.AlbumId;
-    //    model.AlbumInfo.Name = album.Title;
-    //    model.AlbumInfo.Max = MaxAlbumIndex;
-    //    model.Tracks = context.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
-    //  }
-    //  return model;
-    //}
+    public int ModifyArtistIndex(int maxArtistIndex, Operation? operation = null)
+    {
+      switch (operation)
+      {
+        case Operation.NextArtist:
+          AlbumInfo.ArtistInfo.Current++;
+          AlbumInfo.AlbumInfo.Current = 0;
+          if (AlbumInfo.ArtistInfo.Current == maxArtistIndex)
+          {
+            AlbumInfo.ArtistInfo.Current = 0;
+          }
+          break;
+
+        case Operation.PrevArtist:
+          AlbumInfo.ArtistInfo.Current--;
+          AlbumInfo.AlbumInfo.Current = 0;
+          if (AlbumInfo.ArtistInfo.Current < 0)
+          {
+            AlbumInfo.ArtistInfo.Current = maxArtistIndex - 1;
+          }
+          break;
+      }
+      return AlbumInfo.ArtistInfo.Current;
+    }
+
+    public int ModifyAlbumIndex(int maxAlbumIndex, Operation? operation = null)
+    {
+      switch (operation)
+      {
+        case Operation.NextAlbum:
+          AlbumInfo.AlbumInfo.Current++;
+          if (AlbumInfo.AlbumInfo.Current >= maxAlbumIndex)
+            AlbumInfo.AlbumInfo.Current = 0;
+          break;
+
+        case Operation.PrevAlbum:
+          AlbumInfo.AlbumInfo.Current--;
+          if (AlbumInfo.AlbumInfo.Current < 0)
+            AlbumInfo.AlbumInfo.Current = maxAlbumIndex - 1;
+          break;
+      }
+      return AlbumInfo.AlbumInfo.Current;
+    }
   }
 }

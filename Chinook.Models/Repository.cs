@@ -20,9 +20,8 @@ namespace Chinook.Models
   public class Repository : IRepository
   {
     public ArtistContext ArtistContext { get; private set; } = new ArtistContext();
-    //public ArtistModel artistModel { get; set; } = new ArtistModel();
-    //public int MaxAlbumIndex { get; set; }
-    //public int MaxArtistIndex { get; set; } 
+    public ArtistModel artistModel { get; set; } = new ArtistModel();
+
 
     public Repository()
     {
@@ -42,28 +41,10 @@ namespace Chinook.Models
       {
 
         currentModel.ArtistInfo.Max = ArtistContext.Artists.Count();
-        switch (operation)
-        {
-          case Operation.NextArtist:
-            currentModel.ArtistInfo.Current++;
-            currentModel.AlbumInfo.Current = 0;
-            if (currentModel.ArtistInfo.Current == currentModel.ArtistInfo.Max)
-            {
-              currentModel.ArtistInfo.Current = 0;
-            }
-            break;
-
-          case Operation.PrevArtist:
-            currentModel.ArtistInfo.Current--;
-            currentModel.AlbumInfo.Current = 0;
-            if (currentModel.ArtistInfo.Current < 0)
-            {
-              currentModel.ArtistInfo.Current = currentModel.ArtistInfo.Max - 1;
-            }
-            break;
 
 
-        }
+
+        currentModel.ArtistInfo.Current = artistModel.ModifyArtistIndex(currentModel.ArtistInfo.Max, operation);
         var artist = ArtistContext.Artists.ElementAt(currentModel.ArtistInfo.Current);
 
 
@@ -74,27 +55,8 @@ namespace Chinook.Models
         var albums = ArtistContext.Albums.Where(a => a.ArtistId == currentModel.ArtistInfo.Id).ToList();
         var MaxAlbumIndex = albums.Count;
 
-        switch (operation)
-        {
 
-          case Operation.NextAlbum:
-            currentModel.AlbumInfo.Current++;
-            if (currentModel.AlbumInfo.Current == MaxAlbumIndex)
-            {
-              currentModel.AlbumInfo.Current = 0;
-
-            }
-            break;
-
-          case Operation.PrevAlbum:
-            currentModel.AlbumInfo.Current--;
-            if (currentModel.AlbumInfo.Current < 0)
-            {
-              currentModel.AlbumInfo.Current = MaxAlbumIndex - 1;
-            }
-            break;
-        }
-        currentModel.AlbumInfo.Current = currentModel.AlbumInfo.Current;
+        currentModel.AlbumInfo.Current = artistModel.ModifyAlbumIndex(MaxAlbumIndex, operation);
 
         if (MaxAlbumIndex > 0)
         {
