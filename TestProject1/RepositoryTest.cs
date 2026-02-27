@@ -14,14 +14,14 @@ namespace TestProject1
       var albumInfo = DoLoadFirstArtist();
 
       var albumInfo1 = repo.BuildModel(null);
-      var Id1 = albumInfo1.ArtistInfo.Id;
+      var Id1 = albumInfo1.CurrentArtistIndex;
 
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var Id2 = albumInfo2.ArtistInfo.Id;
+      var Id2 = albumInfo2.CurrentArtistIndex;
 
 
       var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var Id3 = albumInfo3.ArtistInfo.Id;
+      var Id3 = albumInfo3.CurrentArtistIndex;
 
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
@@ -38,13 +38,13 @@ namespace TestProject1
     {
       SQLitePCL.Batteries.Init();
       var repo = new Repository();
-      var albumInfo = new AlbumInfoModel();
+      var albumInfo = DoLoadFirstArtist();
 
       var albumInfo1 = repo.BuildModel(albumInfo, Repository.Operation.PrevArtist);
-      var Id1 = albumInfo1.ArtistInfo.Id;
+      var Id1 = albumInfo1.CurrentArtistIndex;
 
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var Id2 = albumInfo2.ArtistInfo.Id;
+      var Id2 = albumInfo2.CurrentArtistIndex;
 
 
       var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
@@ -52,7 +52,7 @@ namespace TestProject1
 
 
       albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.PrevArtist);
-      var Id3 = albumInfo3.ArtistInfo.Id;
+      var Id3 = albumInfo3.CurrentArtistIndex;
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
 
@@ -66,17 +66,17 @@ namespace TestProject1
     {
       SQLitePCL.Batteries.Init();
       var repo = new Repository();
-      var albumInfo = new AlbumInfoModel();
+      var albumInfo = DoLoadFirstArtist();
 
       var albumInfo1 = repo.BuildModel(albumInfo);
-      var Id1 = albumInfo1.AlbumInfo.Id;
+      var Id1 = albumInfo1.CurrentAlbumIndex;
 
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextAlbum);
-      var Id2 = albumInfo2.AlbumInfo.Id;
+      var Id2 = albumInfo2.CurrentAlbumIndex;
 
 
       var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextAlbum);
-      var Id3 = albumInfo3.AlbumInfo.Id;
+      var Id3 = albumInfo3.CurrentAlbumIndex;
 
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
@@ -94,22 +94,21 @@ namespace TestProject1
     {
       SQLitePCL.Batteries.Init();
       var repo = new Repository();
-      var artistInfo = new AlbumInfoModel();
-
-      var artistInfo1 = repo.BuildModel(artistInfo);
-      var Id1 = artistInfo1.ArtistInfo.Id;
+      var albumInfo = DoLoadFirstArtist();
+      var artistInfo1 = repo.BuildModel(albumInfo);
+      var Id1 = artistInfo1.CurrentAlbumIndex;
 
       var artistInfo2 = repo.BuildModel(artistInfo1, Repository.Operation.PrevAlbum);
-      var Id2 = artistInfo2.ArtistInfo.Id;
+      var Id2 = artistInfo2.CurrentAlbumIndex;
 
 
       var artistInfo3 = repo.BuildModel(artistInfo1, Repository.Operation.PrevAlbum);
-      var Id3 = artistInfo3.ArtistInfo.Id;
+      var Id3 = artistInfo3.CurrentAlbumIndex;
 
       Assert.IsNotNull(artistInfo1);
       Assert.IsNotNull(artistInfo2);
 
-      Assert.AreEqual(Id2, Id3);
+      Assert.AreNotEqual(Id2, Id3);
       Assert.AreEqual(Id1, Id3);
 
     }
@@ -122,7 +121,7 @@ namespace TestProject1
        DoLoadFirstArtist();
     }
 
-    public AlbumInfoModel DoLoadFirstArtist()
+    public ArtistModel DoLoadFirstArtist()
     {
       var repo = new Repository();
       Assert.IsNotNull(repo);

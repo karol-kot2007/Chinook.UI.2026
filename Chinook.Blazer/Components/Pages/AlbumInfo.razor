@@ -4,9 +4,9 @@
 @rendermode InteractiveServer
 @{
 	//var model = artistModel.BuildModel(context);
-	var model = repository.BuildModel(albumInfoModel);
-	 artistName = model.ArtistInfo.Name;
-	 albumName = model.AlbumInfo.Name;
+	var model = repository.BuildModel(artistModel);
+	 artistName = model.AlbumInfo.ArtistInfo.Name;
+	 albumName = model.AlbumInfo.AlbumInfo.Name;
 	i = 1;
 }
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
@@ -14,7 +14,7 @@
 	<div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
 		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="ArtistInfoControl_onPrev">Previous </button>
 		<label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
-			@artistName @(@model.ArtistInfo.Current+1)/@model.ArtistInfo.Max
+			@artistName @(@model.CurrentArtistIndex)/@model.MaxArtistIndex
 		</label>
 		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="ArtistInfoControl_OnNext">Next</button>
 	</div>
@@ -22,12 +22,12 @@
 	<div class="d-flex gap-1 flex-row justify-content-between h-50 w-100">
 		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="AlbumInfoControl_onPrev">Previous</button>
 		<label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
-			@if (model.Tracks == null)
+			@if (model.AlbumInfo.Tracks == null)
 			{
 				<span>No Data</span>
 			}else
 			{
-				@($"{albumName} {model.AlbumInfo.Current + 1} / {model.AlbumInfo.Max}")
+				@($"{albumName} {model.CurrentAlbumIndex+1} / {model.MaxAlbumIndex}")
 			}
 		</label>
 		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="AlbumInfoControl_OnNext">Next</button>
@@ -45,7 +45,7 @@
 	</thead>
 	<tbody class="">
 
-		@if (model.Tracks == null)
+		@if (model.AlbumInfo.Tracks == null)
 		{
 			<tr>
 				<th scope="row">1</th>
@@ -57,7 +57,7 @@
 		}
 		else
 		{
-			@foreach (var tracks in model.Tracks)
+			@foreach (var tracks in model.AlbumInfo.Tracks)
 			{
 				<tr>
 					<th scope="row">@i</th>
@@ -80,9 +80,9 @@
 	AlbumInfoModel albumInfoModel = new();
 	protected override void OnInitialized()
 	{
-		var model = repository.BuildModel(albumInfoModel);
-		artistName = model.ArtistInfo.Name;
-		albumName = model.AlbumInfo.Name;
+		var model = repository.BuildModel(artistModel);
+		artistName = model.AlbumInfo.ArtistInfo.Name;
+		albumName = model.AlbumInfo.AlbumInfo.Name;
 	}
 
 
@@ -90,34 +90,19 @@
 	public void AlbumInfoControl_onPrev()
 	{
 
-		artistModel.CurrentAlbumIndex--;
-		if (artistModel.CurrentAlbumIndex < 0)
-		{
-			artistModel.CurrentAlbumIndex = artistModel.MaxAlbumIndex - 1;
-		}
+	repository.BuildModel(artistModel, operation: Repository.Operation.NextAlbum);
 
 	}
 
 	public void AlbumInfoControl_OnNext()
 	{
-		artistModel.CurrentAlbumIndex++;
-		if (artistModel.CurrentAlbumIndex == artistModel.MaxAlbumIndex)
-		{
-			artistModel.CurrentAlbumIndex = 0;
-
-		}
+		repository.BuildModel(artistModel, operation: Repository.Operation.NextAlbum);
 
 	}
 
 	public void ArtistInfoControl_onPrev()
 	{
-		artistModel.CurrentArtistIndex--;
-		artistModel.CurrentAlbumIndex = 0;
-		if (artistModel.CurrentArtistIndex < 0)
-		{
-			artistModel.CurrentArtistIndex = artistModel.MaxArtistIndex - 1;
-		}
-
+		repository.BuildModel(artistModel, operation: Repository.Operation.PrevArtist);
 	}
 
 	public void ArtistInfoControl_OnNext()
@@ -128,7 +113,7 @@
 		// {
 		// 	artistModel.CurrentArtistIndex = 0;
 		// }
-		repository.BuildModel(albumInfoModel, operation: Repository.Operation.NextArtist);
+		repository.BuildModel(artistModel, operation: Repository.Operation.NextArtist);
 	}
 
 

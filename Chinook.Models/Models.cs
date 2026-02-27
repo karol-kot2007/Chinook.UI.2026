@@ -67,7 +67,7 @@ namespace Chinook.Models
       {
         case Operation.NextAlbum:
           AlbumInfo.AlbumInfo.Current++;
-          if (AlbumInfo.AlbumInfo.Current >= maxAlbumIndex)
+          if (AlbumInfo.AlbumInfo.Current == maxAlbumIndex)
             AlbumInfo.AlbumInfo.Current = 0;
           break;
 
