@@ -50,6 +50,7 @@ namespace TestProject1
       var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
 
 
+
       albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.PrevArtist);
       var Id3 = albumInfo3.ArtistInfo.Id;
       Assert.IsNotNull(albumInfo1);
@@ -117,7 +118,8 @@ namespace TestProject1
     public void LoadFirstArtist()
     {
       SQLitePCL.Batteries.Init();
-      DoLoadFirstArtist();
+
+       DoLoadFirstArtist();
     }
 
     public AlbumInfoModel DoLoadFirstArtist()

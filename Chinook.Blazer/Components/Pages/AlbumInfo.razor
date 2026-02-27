@@ -80,7 +80,7 @@
 	AlbumInfoModel albumInfoModel = new();
 	protected override void OnInitialized()
 	{
-		var model = artistModel.BuildModel(context);
+		var model = repository.BuildModel(albumInfoModel);
 		artistName = model.ArtistInfo.Name;
 		albumName = model.AlbumInfo.Name;
 	}
