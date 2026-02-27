@@ -19,7 +19,7 @@ namespace Chinook.UI
     public AlbumInfoModel AlbumInfoModel { get; set; }
     public ArtistInfo ArtistInfo { get; set; }
     public AlbumInfo AlbumInfo { get; set; }
-
+    public Repository Repository { get; private set; } = new();
     public Mode DisplayMode { get; set; }
 
     public AlbumInfoWindow()
@@ -31,51 +31,29 @@ namespace Chinook.UI
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;
       AlbumInfoControl.ArtistSwapper.OnNext += ArtistInfoControl_OnNext;
       AlbumInfoControl.ArtistSwapper.OnPrev += ArtistInfoControl_onPrev;
-     
+
     }
 
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
-      ArtistModel.CurrentArtistIndex--;
-      ArtistModel.CurrentAlbumIndex = 0;
-      if (ArtistModel.CurrentArtistIndex < 0)
-      {
-       ArtistModel.CurrentArtistIndex = ArtistModel.MaxArtistIndex - 1;
-      }
+      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.PrevArtist);
       SetModel();
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-       ArtistModel.CurrentArtistIndex++;
-      ArtistModel.CurrentAlbumIndex = 0;
-      if (ArtistModel.CurrentArtistIndex == ArtistModel.MaxArtistIndex)
-      {
-        ArtistModel.CurrentArtistIndex = 0;
-      }
-      
+      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.NextArtist);
       SetModel();
     }
 
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
-      Debug.WriteLine("btn clicked Prev !!!!!!!!!!" + ArtistModel.MaxAlbumIndex + " " + ArtistModel.CurrentAlbumIndex);
-      ArtistModel.CurrentAlbumIndex--;
-      if (ArtistModel.CurrentAlbumIndex < 0)
-      {
-        ArtistModel.CurrentAlbumIndex = ArtistModel.MaxAlbumIndex - 1;
-      }
+      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.PrevAlbum);
       SetModel();
     }
 
     public void AlbumInfoControl_OnNext(object? sender, EventArgs e)
     {
-      ArtistModel.CurrentAlbumIndex++;
-      if (ArtistModel.CurrentAlbumIndex == ArtistModel.MaxAlbumIndex)
-      {
-        ArtistModel.CurrentAlbumIndex = 0;
-   
-      }
-  
+      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.NextAlbum);
       SetModel();
     }
 
@@ -99,7 +77,7 @@ namespace Chinook.UI
         CloseBtn.Visibility = Visibility.Collapsed;
       }
       AlbumInfoModel = model;
-      
+
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -113,7 +91,7 @@ namespace Chinook.UI
               });
     }
 
-    
+
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
     {
 
@@ -152,26 +130,19 @@ namespace Chinook.UI
     private void SetModel()
     {
       ArtistContext context = new ArtistContext();
-         
-     var model = ArtistModel.BuildModel(context);
+      var model = Repository.BuildModel(AlbumInfoModel);
       if (model.Tracks == null)
       {
-   
         AlbumInfoControl.AlbumName.Text = "no match";
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
-
-
       }
       else
       {
         AlbumInfoControl.AlbumName.Text = model.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
-       
       }
       AlbumInfoControl.ArtistName.Text = model.ArtistInfo.Name;
       SetModel(model);
     }
-
-    //dodac  private void
   }
 }
