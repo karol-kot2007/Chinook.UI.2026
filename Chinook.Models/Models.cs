@@ -40,28 +40,28 @@ namespace Chinook.Models
     public int MaxAlbumIndex { get; set; }
     public int MaxArtistIndex { get; set; }
     public AlbumInfoModel AlbumInfo { get; set; }
-    public AlbumInfoModel BuildModel(ArtistContext context)
-    {
-      MaxArtistIndex = context.Artists.Count();
-      var model = new AlbumInfoModel();
-      var artist = context.Artists.ElementAt(CurrentArtistIndex);  
-      model.ArtistInfo.Name = artist.Name;
-      model.ArtistInfo.Id = artist.ArtistId;
-      model.ArtistInfo.Max = MaxArtistIndex;
-      model.ArtistInfo.Current = CurrentArtistIndex;
-        var albums = context.Albums.Where(a => a.ArtistId == model.ArtistInfo.Id).ToList();
-      MaxAlbumIndex = albums.Count;
-      model.AlbumInfo.Current = CurrentAlbumIndex;
+    //public AlbumInfoModel BuildModel(ArtistContext context)
+    //{
+    //  MaxArtistIndex = context.Artists.Count();
+    //  var model = new AlbumInfoModel();
+    //  var artist = context.Artists.ElementAt(CurrentArtistIndex);  
+    //  model.ArtistInfo.Name = artist.Name;
+    //  model.ArtistInfo.Id = artist.ArtistId;
+    //  model.ArtistInfo.Max = MaxArtistIndex;
+    //  model.ArtistInfo.Current = CurrentArtistIndex;
+    //    var albums = context.Albums.Where(a => a.ArtistId == model.ArtistInfo.Id).ToList();
+    //  MaxAlbumIndex = albums.Count;
+    //  model.AlbumInfo.Current = CurrentAlbumIndex;
 
-      if (MaxAlbumIndex > 0)
-      {
-        var album = albums[CurrentAlbumIndex];
-        model.AlbumInfo.Id = album.AlbumId;
-        model.AlbumInfo.Name = album.Title;
-        model.AlbumInfo.Max = MaxAlbumIndex;
-        model.Tracks = context.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
-      }
-      return model;
-    }
+    //  if (MaxAlbumIndex > 0)
+    //  {
+    //    var album = albums[CurrentAlbumIndex];
+    //    model.AlbumInfo.Id = album.AlbumId;
+    //    model.AlbumInfo.Name = album.Title;
+    //    model.AlbumInfo.Max = MaxAlbumIndex;
+    //    model.Tracks = context.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
+    //  }
+    //  return model;
+    //}
   }
 }
