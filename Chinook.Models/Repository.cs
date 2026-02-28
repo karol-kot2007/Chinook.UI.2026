@@ -33,53 +33,70 @@ namespace Chinook.Models
       NextArtist, PrevArtist, NextAlbum, PrevAlbum
     }
 
+    private void BindProps(ArtistModel artistModel, Artist artist)
+    {
+      artistModel.CurrentArtistIndex = artist.ArtistId;
+      artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
+    }
 
+    private List<Album> CreateAlbums(ArtistModel artistModel)
+    {
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex).ToList();
+      return albums;
+    }
 
+    private Album CreateAlbum(List<Album> albums, ArtistModel artistModel)
+    {
+      var album = albums[artistModel.CurrentAlbumIndex];
+      return album;
+    }
+
+    private Artist CreateArtist(ArtistModel artistModel)
+    {
+      var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
+      return artist;
+    }
+
+    private List<Track> CreateTracks(Album album)
+    {
+      var tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
+      return tracks;
+    }
     public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
     {
       if (currentModel != null)
       {
-
         currentModel.MaxArtistIndex = ArtistContext.Artists.Count();
         currentModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(currentModel.MaxArtistIndex, operation);
-        var artist = ArtistContext.Artists.ElementAt(currentModel.CurrentArtistIndex);
-        currentModel.CurrentArtistIndex = artist.ArtistId;
-       
-        currentModel.AlbumInfo.ArtistInfo.Name = artist.Name;
-        
-        var albums = ArtistContext.Albums.Where(a => a.ArtistId == currentModel.CurrentArtistIndex).ToList();
-        var MaxAlbumIndex = albums.Count;
-        currentModel.CurrentAlbumIndex = currentModel.ModifyAlbumIndex(MaxAlbumIndex, operation);
-        if (MaxAlbumIndex > 0)
+        var artist = CreateArtist(currentModel);
+        BindProps(currentModel, artist);
+        var albums = CreateAlbums(currentModel);
+        currentModel.MaxAlbumIndex = albums.Count;
+        currentModel.CurrentAlbumIndex = currentModel.ModifyAlbumIndex(currentModel.MaxAlbumIndex, operation);
+        if (currentModel.MaxAlbumIndex > 0)
         {
-          var album = albums[currentModel.CurrentAlbumIndex];
+          var album = CreateAlbum(albums, currentModel);
           currentModel.AlbumInfo.AlbumInfo.Id = album.AlbumId;
           currentModel.AlbumInfo.AlbumInfo.Name = album.Title;
-          currentModel.MaxAlbumIndex = MaxAlbumIndex;
-          currentModel.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
+          currentModel.AlbumInfo.Tracks = CreateTracks(album);
         }
         return currentModel;
       }
-      else 
+      else
       {
-
-        var albumInfoModel = new AlbumInfoModel();
         var artistModel = new ArtistModel();
-        artistModel.CurrentAlbumIndex = 1;
+        artistModel.CurrentAlbumIndex = 0;
         artistModel.MaxArtistIndex = 1;
-        var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
-        albumInfoModel.ArtistInfo.Current = albumInfoModel.ArtistInfo.Current;
-        albumInfoModel.ArtistInfo.Id = artist.ArtistId;
-        albumInfoModel.ArtistInfo.Name = artist.Name;
-        albumInfoModel.ArtistInfo.Max = artistModel.MaxArtistIndex;
-        albumInfoModel.ArtistInfo.Current = albumInfoModel.ArtistInfo.Current;
-        var albums = ArtistContext.Albums.Where(a => a.ArtistId == albumInfoModel.ArtistInfo.Id).ToList();
+        var artist = CreateArtist(artistModel);
+        BindProps(artistModel, artist);
+        artistModel.AlbumInfo.ArtistInfo.Max = artistModel.MaxArtistIndex;
+        var albums = CreateAlbums(artistModel);
         artistModel.MaxAlbumIndex = albums.Count;
-        var album = albums[artistModel.CurrentAlbumIndex];
-        albumInfoModel.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
+        var album = CreateAlbum(albums, artistModel);
+        artistModel.AlbumInfo.Tracks = CreateTracks(album);
         return artistModel;
       }
-    
+
     }
 
   }

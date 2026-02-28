@@ -4,7 +4,7 @@
 @rendermode InteractiveServer
 @{
 	//var model = artistModel.BuildModel(context);
-	var model = repository.BuildModel(artistModel);
+	var model = repository.BuildModel(null);
 	 artistName = model.AlbumInfo.ArtistInfo.Name;
 	 albumName = model.AlbumInfo.AlbumInfo.Name;
 	i = 1;
@@ -80,7 +80,7 @@
 	AlbumInfoModel albumInfoModel = new();
 	protected override void OnInitialized()
 	{
-		var model = repository.BuildModel(artistModel);
+		var model = repository.BuildModel(null);
 		artistName = model.AlbumInfo.ArtistInfo.Name;
 		albumName = model.AlbumInfo.AlbumInfo.Name;
 	}

@@ -118,7 +118,7 @@ namespace TestProject1
     {
       SQLitePCL.Batteries.Init();
 
-       DoLoadFirstArtist();
+      DoLoadFirstArtist();
     }
 
     public ArtistModel DoLoadFirstArtist()
