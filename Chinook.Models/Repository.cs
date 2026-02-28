@@ -64,39 +64,31 @@ namespace Chinook.Models
     }
     public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
     {
+      var artistModel = new ArtistModel();
       if (currentModel != null)
       {
-        currentModel.MaxArtistIndex = ArtistContext.Artists.Count();
-        currentModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(currentModel.MaxArtistIndex, operation);
-        var artist = CreateArtist(currentModel);
-        BindProps(currentModel, artist);
-        var albums = CreateAlbums(currentModel);
-        currentModel.MaxAlbumIndex = albums.Count;
-        currentModel.CurrentAlbumIndex = currentModel.ModifyAlbumIndex(currentModel.MaxAlbumIndex, operation);
-        if (currentModel.MaxAlbumIndex > 0)
-        {
-          var album = CreateAlbum(albums, currentModel);
-          currentModel.AlbumInfo.AlbumInfo.Id = album.AlbumId;
-          currentModel.AlbumInfo.AlbumInfo.Name = album.Title;
-          currentModel.AlbumInfo.Tracks = CreateTracks(album);
-        }
-        return currentModel;
-      }
-      else
-      {
-        var artistModel = new ArtistModel();
-        artistModel.CurrentAlbumIndex = 0;
-        artistModel.MaxArtistIndex = 1;
-        var artist = CreateArtist(artistModel);
-        BindProps(artistModel, artist);
-        artistModel.AlbumInfo.ArtistInfo.Max = artistModel.MaxArtistIndex;
-        var albums = CreateAlbums(artistModel);
-        artistModel.MaxAlbumIndex = albums.Count;
-        var album = CreateAlbum(albums, artistModel);
-        artistModel.AlbumInfo.Tracks = CreateTracks(album);
-        return artistModel;
+        artistModel.MaxArtistIndex = ArtistContext.Artists.Count();
+        artistModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(artistModel.MaxArtistIndex, operation);
       }
 
+      var artist = CreateArtist(artistModel);
+      BindProps(artistModel, artist);
+      var albums = CreateAlbums(artistModel);
+      artistModel.MaxAlbumIndex = albums.Count;
+
+      if (currentModel != null)
+      {
+        artistModel.CurrentAlbumIndex = currentModel.ModifyAlbumIndex(artistModel.MaxAlbumIndex, operation);
+      }
+
+      if (artistModel.MaxAlbumIndex > 0)
+      {
+        var album = CreateAlbum(albums, artistModel);
+        artistModel.AlbumInfo.AlbumInfo.Id = album.AlbumId;
+        artistModel.AlbumInfo.AlbumInfo.Name = album.Title;
+        artistModel.AlbumInfo.Tracks = CreateTracks(album);
+      }
+      return artistModel;
     }
 
   }
