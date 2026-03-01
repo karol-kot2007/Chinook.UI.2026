@@ -14,22 +14,16 @@ namespace TestProject1
       var albumInfo = DoLoadFirstArtist();
 
       var albumInfo1 = repo.BuildModel(null);
-      var Id1 = albumInfo1.CurrentArtistIndex;
-
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var Id2 = albumInfo2.CurrentArtistIndex;
-
-
       var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var Id3 = albumInfo3.CurrentArtistIndex;
-
+      
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
+      Assert.IsNotNull(albumInfo3);
 
-
-      Assert.AreNotEqual(Id1, Id2);
-      Assert.AreNotEqual(Id2, Id3);
-      Assert.AreNotEqual(Id1, Id3);
+      Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
+      Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
+      Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
 
     }
 
