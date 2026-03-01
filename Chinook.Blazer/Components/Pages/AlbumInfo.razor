@@ -4,7 +4,7 @@
 @rendermode InteractiveServer
 @{
 	//var model = artistModel.BuildModel(context);
-	var model = repository.BuildModel(null);
+	var model = repository.BuildModel(artistModel);
 	 artistName = model.AlbumInfo.ArtistInfo.Name;
 	 albumName = model.AlbumInfo.AlbumInfo.Name;
 	i = 1;
