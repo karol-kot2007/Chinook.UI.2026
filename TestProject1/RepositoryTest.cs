@@ -4,12 +4,19 @@ using Chinook.Models;
 namespace TestProject1
 {
   [TestClass]
-  public sealed class RepositoryTest
+  public class RepositoryTest
   {
-    [TestMethod]
-    public void LoadNextArtist()
+    [TestInitialize]
+    public void TestIntialize()
     {
       SQLitePCL.Batteries.Init();
+    }
+
+    [TestMethod]
+
+    public void LoadNextArtist()
+    {
+
       var repo = new Repository();
       var albumInfo = DoLoadFirstArtist();
 
@@ -27,10 +34,11 @@ namespace TestProject1
 
     }
 
+
+
     [TestMethod]
     public void LoadPrevArtist()
     {
-      SQLitePCL.Batteries.Init();
       var repo = new Repository();
       var albumInfo = DoLoadFirstArtist();
 
@@ -51,7 +59,6 @@ namespace TestProject1
     [TestMethod]
     public void LoadNextAlbum()
     {
-      SQLitePCL.Batteries.Init();
       var repo = new Repository();
       var albumInfo = DoLoadFirstArtist();
 
@@ -73,7 +80,6 @@ namespace TestProject1
     [TestMethod]
     public void LoadPrevAlbum()
     {
-      SQLitePCL.Batteries.Init();
       var repo = new Repository();
       var albumInfo = DoLoadFirstArtist();
 
@@ -93,7 +99,6 @@ namespace TestProject1
     [TestMethod]
     public void LoadFirstArtist()
     {
-      SQLitePCL.Batteries.Init();
       DoLoadFirstArtist();
     }
 
@@ -105,5 +110,7 @@ namespace TestProject1
       Assert.IsNotNull(albumInfo);
       return albumInfo;
     }
+
   }
+
 }
