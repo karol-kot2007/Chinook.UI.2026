@@ -7,7 +7,7 @@
 	var model = repository.BuildModel(artistModel);
 	 artistName = model.AlbumInfo.ArtistInfo.Name;
 	 albumName = model.AlbumInfo.AlbumInfo.Name;
-	i = 1;
+
 }
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
 	<h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
@@ -37,7 +37,6 @@
 
 	<thead>
 		<tr>
-			<th scope="col">#</th>
 			<th scope="col">artistName</th>
 			<th scope="col">Track name</th>
 			<th scope="col">Price</th>
@@ -48,7 +47,6 @@
 		@if (model.AlbumInfo.Tracks == null)
 		{
 			<tr>
-				<th scope="row">1</th>
 				<td>No Data</td>
 				<td>No Data</td>
 				<td>No Data</td>
@@ -60,18 +58,16 @@
 			@foreach (var tracks in model.AlbumInfo.Tracks)
 			{
 				<tr>
-					<th scope="row">@i</th>
 					<td>@artistName</td>
 					<td>@tracks.Name</td>
 					<td>@tracks.UnitPrice$</td>
 
 				</tr>
-				i++;
+	
 			}}
 	</tbody>
 </table>
 @code {
-	int i = 1;
 	string albumName = "";
 	string artistName = "";
 	ArtistContext context = new();
@@ -80,9 +76,9 @@
 	AlbumInfoModel albumInfoModel = new();
 	protected override void OnInitialized()
 	{
-		var model = repository.BuildModel(null);
-		artistName = model.AlbumInfo.ArtistInfo.Name;
-		albumName = model.AlbumInfo.AlbumInfo.Name;
+		//var model = repository.BuildModel(null);
+		// artistName = model.AlbumInfo.ArtistInfo.Name;
+		// albumName = model.AlbumInfo.AlbumInfo.Name;
 	}
 
 
