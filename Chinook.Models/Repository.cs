@@ -20,7 +20,6 @@ namespace Chinook.Models
   public class Repository : IRepository
   {
     public ArtistContext ArtistContext { get; private set; } = new ArtistContext();
-    //public ArtistModel artistModel { get; set; } = new ArtistModel();
 
 
     public Repository()
@@ -67,6 +66,7 @@ namespace Chinook.Models
       var artistModel = new ArtistModel();
       if (currentModel != null)
       {
+        
         artistModel.MaxArtistIndex = ArtistContext.Artists.Count();
         artistModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(artistModel.MaxArtistIndex, operation);
       }

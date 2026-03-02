@@ -36,24 +36,24 @@ namespace Chinook.UI
 
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
-      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.PrevArtist);
+      Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevArtist);
       SetModel();
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.NextArtist);
+      Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextArtist);
       SetModel();
     }
 
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
-      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.PrevAlbum);
+      Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevAlbum);
       SetModel();
     }
 
     public void AlbumInfoControl_OnNext(object? sender, EventArgs e)
     {
-      Repository.BuildModel(AlbumInfoModel, operation: Repository.Operation.NextAlbum);
+      Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextAlbum);
       SetModel();
     }
 
@@ -63,7 +63,7 @@ namespace Chinook.UI
     }
 
 
-    private void SetModel(AlbumInfoModel model)
+    private void SetModel(ArtistModel model)
     {
       DataContext = model;
       AlbumInfoControl.Bind(model, DisplayMode);
@@ -76,7 +76,7 @@ namespace Chinook.UI
       {
         CloseBtn.Visibility = Visibility.Collapsed;
       }
-      AlbumInfoModel = model;
+      AlbumInfoModel = model.AlbumInfo;
 
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
@@ -129,19 +129,19 @@ namespace Chinook.UI
 
     private void SetModel()
     {
-      ArtistContext context = new ArtistContext();
-      var model = Repository.BuildModel(AlbumInfoModel);
-      if (model.Tracks == null)
+
+      var model = Repository.BuildModel(ArtistModel);
+      if (model.AlbumInfo.Tracks == null)
       {
         AlbumInfoControl.AlbumName.Text = "no match";
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
       }
       else
       {
-        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.Name;
+        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
       }
-      AlbumInfoControl.ArtistName.Text = model.ArtistInfo.Name;
+      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
       SetModel(model);
     }
   }
