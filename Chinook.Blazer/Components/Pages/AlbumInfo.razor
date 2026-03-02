@@ -2,13 +2,6 @@
 @using Chinook.Models
 @using Chinook.DAL
 @rendermode InteractiveServer
-@{
-	//var model = artistModel.BuildModel(context);
-	var model = repository.BuildModel(artistModel);
-	 artistName = model.AlbumInfo.ArtistInfo.Name;
-	 albumName = model.AlbumInfo.AlbumInfo.Name;
-
-}
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
 	<h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
 	<div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
@@ -63,53 +56,44 @@
 					<td>@tracks.UnitPrice$</td>
 
 				</tr>
-	
+
 			}}
 	</tbody>
 </table>
 @code {
-	string albumName = "";
-	string artistName = "";
-	ArtistContext context = new();
+	private ArtistModel model = new();
 	ArtistModel artistModel = new();
 	Repository repository = new();
-	AlbumInfoModel albumInfoModel = new();
+
+	string albumName => model.AlbumInfo.AlbumInfo.Name;
+	string artistName => model.AlbumInfo.ArtistInfo.Name;
+
 	protected override void OnInitialized()
 	{
-		//var model = repository.BuildModel(null);
-		// artistName = model.AlbumInfo.ArtistInfo.Name;
-		// albumName = model.AlbumInfo.AlbumInfo.Name;/
+		model = repository.BuildModel(artistModel);
+
 	}
 
 
 
 	public void AlbumInfoControl_onPrev()
 	{
-
-	repository.BuildModel(artistModel, operation: Repository.Operation.PrevAlbum);
-
+		model  = repository.BuildModel(artistModel, operation: Repository.Operation.PrevAlbum);
 	}
 
 	public void AlbumInfoControl_OnNext()
 	{
-		repository.BuildModel(artistModel, operation: Repository.Operation.NextAlbum);
-
+		 model  = repository.BuildModel(artistModel, operation: Repository.Operation.NextAlbum);	
 	}
 
 	public void ArtistInfoControl_onPrev()
 	{
-		repository.BuildModel(artistModel, operation: Repository.Operation.PrevArtist);
+		model  = repository.BuildModel(artistModel, operation: Repository.Operation.PrevArtist);
 	}
 
 	public void ArtistInfoControl_OnNext()
 	{
-		// artistModel.CurrentArtistIndex++;
-		// artistModel.CurrentAlbumIndex = 0;
-		// if (artistModel.CurrentArtistIndex == artistModel.MaxArtistIndex)
-		// {
-		// 	artistModel.CurrentArtistIndex = 0;
-		// }
-		repository.BuildModel(artistModel, operation: Repository.Operation.NextArtist);
+		model  = repository.BuildModel(artistModel, operation: Repository.Operation.NextArtist);
 	}
 
 
