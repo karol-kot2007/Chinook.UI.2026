@@ -16,9 +16,7 @@ namespace Chinook.UI
   public partial class AlbumInfoWindow : Window
   {
     public ArtistModel ArtistModel { get; private set; }
-    public AlbumInfoModel AlbumInfoModel { get; set; }
-    public ArtistInfo ArtistInfo { get; set; }
-    public AlbumInfo AlbumInfo { get; set; }
+    public AlbumInfoModel AlbumInfoModel { get; private set; }
     public Repository Repository { get; private set; } = new();
     public Mode DisplayMode { get; set; }
 
@@ -36,25 +34,25 @@ namespace Chinook.UI
 
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
-      Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevArtist);
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevArtist);
+      SetModel(model);
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-      Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextArtist);
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextArtist);
+      SetModel(model);
     }
 
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
-      Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevAlbum);
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevAlbum);
+      SetModel(model);
     }
 
     public void AlbumInfoControl_OnNext(object? sender, EventArgs e)
     {
-      Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextAlbum);
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextAlbum);
+      SetModel(model);
     }
 
     protected override void OnInitialized(EventArgs e)

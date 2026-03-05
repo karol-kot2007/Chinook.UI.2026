@@ -89,6 +89,11 @@ namespace Chinook.UI
     {
 
     }
-  }
+
+    private void AlbumSwapper_Loaded(object sender, RoutedEventArgs e)
+    {
+
+        }
+    }
 
 }
