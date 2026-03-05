@@ -5,25 +5,25 @@
 <div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width: 700px;">
 	<h2 class="text-center text-black text-black px-4 py-2 rounded-2 ">Album info</h2>
 	<div class="d-flex gap-1 flex-row justify-content-around h-50 w-100">
-		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="ArtistInfoControl_onPrev">Previous </button>
+		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="()=>BuildModel(op:Repository.Operation.PrevArtist)">Previous </button>
 		<label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
 			@artistName @(@model.CurrentArtistIndex)/@model.MaxArtistIndex
 		</label>
-		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="ArtistInfoControl_OnNext">Next</button>
+		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="()=>BuildModel(op:Repository.Operation.NextArtist)">Next</button>
 	</div>
 
 	<div class="d-flex gap-1 flex-row justify-content-between h-50 w-100">
-		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="AlbumInfoControl_onPrev">Previous</button>
+		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="()=>BuildModel(op:Repository.Operation.PrevAlbum)">Previous</button>
 		<label class="w-75 border border-dark rounded-3 text-black rounded-2 d-flex align-items-center justify-content-center" style="height: 40px;">
 			@if (model.AlbumInfo.Tracks == null)
 			{
 				<span>No Data</span>
 			}else
 			{
-				@($"{albumName} {model.CurrentAlbumIndex+1} / {model.MaxAlbumIndex}")
+				@($"{AlbumName} {model.CurrentAlbumIndex+1} / {model.MaxAlbumIndex}")
 			}
 		</label>
-		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="AlbumInfoControl_OnNext">Next</button>
+		<button type="button" class="btn btn-outline-dark shadow-lg" @onclick="()=>BuildModel(op:Repository.Operation.NextAlbum)">Next</button>
 	</div>
 </div>
 <table class="table m-4">
@@ -65,7 +65,7 @@
 	ArtistModel artistModel = new();
 	Repository repository = new();
 
-	string albumName => model.AlbumInfo.AlbumInfo.Name;
+	string AlbumName => model.AlbumInfo.AlbumInfo.Name;
 	string artistName => model.AlbumInfo.ArtistInfo.Name;
 
 	protected override void OnInitialized()
@@ -74,27 +74,9 @@
 
 	}
 
-
-
-	public void AlbumInfoControl_onPrev()
+	ArtistModel BuildModel(Repository.Operation op)
 	{
-		model  = repository.BuildModel(artistModel, operation: Repository.Operation.PrevAlbum);
+		model = repository.BuildModel(artistModel, operation: op);
+		return model;
 	}
-
-	public void AlbumInfoControl_OnNext()
-	{
-		 model  = repository.BuildModel(artistModel, operation: Repository.Operation.NextAlbum);	
-	}
-
-	public void ArtistInfoControl_onPrev()
-	{
-		model  = repository.BuildModel(artistModel, operation: Repository.Operation.PrevArtist);
-	}
-
-	public void ArtistInfoControl_OnNext()
-	{
-		model  = repository.BuildModel(artistModel, operation: Repository.Operation.NextArtist);
-	}
-
-
 }
