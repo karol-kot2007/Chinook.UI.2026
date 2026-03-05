@@ -140,9 +140,15 @@ namespace Chinook.UI
       {
         AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
+       
       }
       AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
       SetModel(model);
+    }
+
+    private void AlbumInfoControl_Loaded(object sender, RoutedEventArgs e)
+    {
+
     }
   }
 }
