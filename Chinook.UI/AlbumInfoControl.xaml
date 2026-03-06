@@ -17,7 +17,7 @@
       <Label Content="Artist:" Height="30" VerticalAlignment="Center" Width="50" />
       <TextBox Text=" " VerticalAlignment="Center" x:Name="ArtistName" Height="28" Width="110" />
     </StackPanel>
-    <DataGrid x:Name="GridAlbum" AutoGenerateColumns="False" Width="679" SelectionChanged="GridAlbum_SelectionChanged" >
+    <DataGrid x:Name="GridAlbum" AutoGenerateColumns="False" Width="725" SelectionChanged="GridAlbum_SelectionChanged" >
       <DataGrid.Columns>
         <DataGridTextColumn Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True"  />
         <DataGridTextColumn Header="TrackName: " Binding="{Binding Name}"  x:Name="TrackNameButton"  IsReadOnly="True" />

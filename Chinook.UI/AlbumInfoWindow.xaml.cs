@@ -76,6 +76,18 @@ namespace Chinook.UI
       }
       AlbumInfoModel = model.AlbumInfo;
 
+      if (model.AlbumInfo.Tracks == null)
+      {
+        AlbumInfoControl.AlbumName.Text = "no match";
+        AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
+      }
+      else
+      {
+        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
+        AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
+
+      }
+      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -119,30 +131,14 @@ namespace Chinook.UI
     internal void Show(Mode mode)
     {
       DisplayMode = mode;
-
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel);
+      SetModel(model);
 
       ShowDialog();
     }
 
-    private void SetModel()
-    {
-
-      var model = Repository.BuildModel(ArtistModel);
-      if (model.AlbumInfo.Tracks == null)
-      {
-        AlbumInfoControl.AlbumName.Text = "no match";
-        AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
-      }
-      else
-      {
-        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
-        AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
-       
-      }
-      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
-      SetModel(model);
-    }
+  
+    
 
     private void AlbumInfoControl_Loaded(object sender, RoutedEventArgs e)
     {
