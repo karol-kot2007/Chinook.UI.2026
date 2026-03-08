@@ -20,18 +20,14 @@ namespace Chinook.UI
     {
       InitializeComponent();
       Player = new MediaPlayer();
-      Button btn = new Button();
-
-
     }
     internal void Bind(ArtistModel model, Mode mode)
     {
 
       GridAlbum.ItemsSource = model.AlbumInfo.Tracks;
       DisplayMode = mode;
-      ArtistSwapper.Bind("artist", model.CurrentArtistIndex,model.MaxArtistIndex,model.AlbumInfo.ArtistInfo.Name);
-      AlbumSwapper.Bind("album", model.CurrentAlbumIndex+1, model.MaxAlbumIndex, model.AlbumInfo.AlbumInfo.Name);
-
+      ArtistSwapper.Bind(model.GetArtistInfo(model));
+      AlbumSwapper.Bind(model.GetAlbumInfo(model)); 
     }
 
     private void dgUsers_AddingNewItem(object sender, AddingNewItemEventArgs e)
@@ -43,12 +39,6 @@ namespace Chinook.UI
     {
       System.Environment.Exit(0);
     }
-
-    private void ok_Button(object sender, RoutedEventArgs e, ArtistContext ArtistId)
-    {
-
-    }
-
     private void PlayBtn_Click(object sender, RoutedEventArgs e)
     {
 
@@ -80,11 +70,6 @@ namespace Chinook.UI
       Player.Play();
 
     }
-    private void GridAlbum_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
-
     private void AlbumName_TextChanged(object sender, TextChangedEventArgs e)
     {
 

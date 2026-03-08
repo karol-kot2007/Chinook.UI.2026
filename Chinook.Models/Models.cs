@@ -36,6 +36,15 @@ namespace Chinook.Models
     public int MaxArtistIndex { get; set; }
     public AlbumInfoModel AlbumInfo { get; set; } = new();
 
+    public string GetArtistInfo(ArtistModel model)
+    {
+      return "artist:" + model.AlbumInfo.ArtistInfo.Name + " " + model.CurrentArtistIndex.ToString() + "/" + model.MaxArtistIndex ;
+    }
+
+    public string GetAlbumInfo(ArtistModel model)
+    {
+      return "album:" + model.AlbumInfo.AlbumInfo.Name + " " + (model.CurrentAlbumIndex+1).ToString() + "/" + model.MaxAlbumIndex;
+    }
     public int ModifyArtistIndex(int maxArtistIndex, Operation? operation = null)
     {
       switch (operation)

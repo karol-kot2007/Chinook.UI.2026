@@ -30,14 +30,10 @@ namespace Chinook.UI
         OnNext(this, e);
       }
     }
-
-    internal void Bind(string prefix,int current, int max, string name)
+    internal void Bind(string info)
     {
-      
-      Content.Text =prefix+ " : " + name + " " +current+ " " + "/"+ max + " ";
-     
+      Content.Text = info;
     }
-  
 
   }
 }

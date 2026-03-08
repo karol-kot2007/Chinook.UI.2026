@@ -11,7 +11,7 @@
 		</button>
 
 		<label class="flex-grow-1 border border-dark rounded-3 text-black d-flex align-items-center justify-content-center shadow-sm" style="height: 45px; min-width: 200px;">
-			<span class="fw-bold">@($"artist: {artistName} {@model.CurrentArtistIndex}/{@model.MaxArtistIndex}")</span>
+			<span class="fw-bold">@(artistModel.GetArtistInfo(model))</span>
 		</label>
 
 		<button type="button" class="btn btn-outline-dark shadow-lg px-4" @onclick="()=>BuildModel(op:Repository.Operation.NextArtist)">
@@ -31,7 +31,7 @@
 			}
 			else
 			{
-				<span class="fw-bold">@($"album: {AlbumName} {model.CurrentAlbumIndex + 1} / {model.MaxAlbumIndex}")</span>
+				<span class="fw-bold">@(artistModel.GetAlbumInfo(model))</span>
 			}
 		</label>
 
@@ -65,7 +65,7 @@
 			@foreach (var tracks in model.AlbumInfo.Tracks)
 			{
 				<tr>
-					<td>@artistName</td>
+					<td>@ArtistName</td>
 					<td>@tracks.Name</td>
 					<td>@tracks.UnitPrice$</td>
 
@@ -79,8 +79,8 @@
 	ArtistModel artistModel = new();
 	Repository repository = new();
 
-	string AlbumName => model.AlbumInfo.AlbumInfo.Name;
-	string artistName => model.AlbumInfo.ArtistInfo.Name;
+	
+	string ArtistName => model.AlbumInfo.ArtistInfo.Name;
 
 	protected override void OnInitialized()
 	{
