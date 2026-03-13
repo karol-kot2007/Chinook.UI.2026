@@ -1,7 +1,7 @@
 ﻿using Chinook.DAL;
 using Chinook.Models;
 
-namespace TestProject1
+namespace RealDbTests
 {
   [TestClass]
   public class RepositoryTest
@@ -14,25 +14,14 @@ namespace TestProject1
 
     [TestMethod]
 
-    public void LoadNextArtist()
+    public void LoadNextArtistRealDb()
     {
 
       var repo = new Repository();
-      var albumInfo = DoLoadFirstArtist();
-
-      var albumInfo1 = repo.BuildModel(null);
-      var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-
-      Assert.IsNotNull(albumInfo1);
-      Assert.IsNotNull(albumInfo2);
-      Assert.IsNotNull(albumInfo3);
-
-      Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
-      Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
-      Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
+      DoLoadNextArtist(repo);
 
     }
+
 
 
 
@@ -40,7 +29,7 @@ namespace TestProject1
     public void LoadPrevArtist()
     {
       var repo = new Repository();
-      var albumInfo = DoLoadFirstArtist();
+      var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(albumInfo, Repository.Operation.PrevArtist);
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
@@ -60,7 +49,7 @@ namespace TestProject1
     public void LoadNextAlbum()
     {
       var repo = new Repository();
-      var albumInfo = DoLoadFirstArtist();
+      var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(albumInfo);
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextAlbum);
@@ -81,7 +70,7 @@ namespace TestProject1
     public void LoadPrevAlbum()
     {
       var repo = new Repository();
-      var albumInfo = DoLoadFirstArtist();
+      var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(albumInfo);
       var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.PrevAlbum);
@@ -97,19 +86,48 @@ namespace TestProject1
     }
 
     [TestMethod]
-    public void LoadFirstArtist()
-    {
-      DoLoadFirstArtist();
-    }
-
-    public ArtistModel DoLoadFirstArtist()
+    public void LoadFirstArtistRealDB()
     {
       var repo = new Repository();
+      DoLoadFirstArtist(repo);
+    }
+
+
+
+    public ArtistModel DoLoadFirstArtist(IRepository repo)
+    {
       Assert.IsNotNull(repo);
       var albumInfo = repo.BuildModel();
       Assert.IsNotNull(albumInfo);
+      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Name);
+      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Id);
+      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Current);
+      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Max);
+
+      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Name);
+      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Id);
+      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Current);
+      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Max);
       return albumInfo;
     }
+
+    private void DoLoadNextArtist(IRepository repo)
+    {
+      var albumInfo = DoLoadFirstArtist(repo);
+
+      var albumInfo1 = repo.BuildModel(null);
+      var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
+      var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
+
+      Assert.IsNotNull(albumInfo1);
+      Assert.IsNotNull(albumInfo2);
+      Assert.IsNotNull(albumInfo3);
+
+      Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
+      Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
+      Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
+    }
+
 
   }
 
