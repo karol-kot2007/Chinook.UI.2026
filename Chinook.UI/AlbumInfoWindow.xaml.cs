@@ -17,7 +17,7 @@ namespace Chinook.UI
   {
     public ArtistModel ArtistModel { get; private set; }
     public AlbumInfoModel AlbumInfoModel { get; private set; }
-    public Repository Repository { get; private set; } = new();
+    IRepository Repository { get; set; }
     public Mode DisplayMode { get; set; }
 
     public AlbumInfoWindow()
@@ -34,24 +34,24 @@ namespace Chinook.UI
 
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
-      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevArtist);
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.PrevArtist);
       SetModel(model);
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextArtist);
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.NextArtist);
       SetModel(model);
     }
 
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
-      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.PrevAlbum);
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.PrevAlbum);
       SetModel(model);
     }
 
     public void AlbumInfoControl_OnNext(object? sender, EventArgs e)
     {
-      var model = Repository.BuildModel(ArtistModel, operation: Repository.Operation.NextAlbum);
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.NextAlbum);
       SetModel(model);
     }
 
@@ -128,9 +128,10 @@ namespace Chinook.UI
 
     }
 
-    internal void Show(Mode mode)
+    internal void Show(Mode mode, IRepository repository)
     {
       DisplayMode = mode;
+      Repository = repository;
       var model = Repository.BuildModel(ArtistModel);
       SetModel(model);
 

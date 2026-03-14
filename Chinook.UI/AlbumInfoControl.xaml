@@ -11,7 +11,7 @@
     <local:AlbumSwapper x:Name="AlbumSwapper"  Height="25" Margin="0px 10px 0px 20px" Loaded="AlbumSwapper_Loaded"/>
     <StackPanel Orientation="Horizontal">
       <Label Content="Album:"/>
-      <TextBox Text=""    x:Name="AlbumName" Width="110" TextChanged="AlbumName_TextChanged" />
+      <TextBox Text=""    x:Name="AlbumName" Width="257" TextChanged="AlbumName_TextChanged" />
     </StackPanel>
     <StackPanel Orientation="Horizontal" Height="100px">
       <Label Content="Artist:" Height="30" VerticalAlignment="Center" Width="50" />
