@@ -9,22 +9,13 @@ using RealDbTests;
 namespace Chinook.Tests
 {
   [TestClass]
-  public class MockedRepositoryTest
+  public class MockedRepositoryTest : TestBase
   {
-    [TestInitialize]
-    public void TestIntialize()
-    {
-      SQLitePCL.Batteries.Init();
-    }
-
-    RepositoryTest test = new();
-
-
     [TestMethod]
     public void LoadFirstArtistMockedDB()
     {
       var repo = new MockedRepository();
-      test.DoLoadFirstArtist(repo);
+      DoLoadFirstArtist(repo);
     }
 
 
@@ -33,14 +24,7 @@ namespace Chinook.Tests
     public void MockedDbLoadNextAlbum()
     {
       var repo = new MockedRepository();
-      var albumInfo = test.DoLoadFirstArtist(repo);
-      Assert.IsNotNull(repo);
-      var firstModel = repo.BuildModel(null);
-      var nextModel = repo.BuildModel(firstModel, Repository.Operation.NextAlbum);
-      Assert.IsNotNull(firstModel);
-      Assert.IsNotNull(nextModel);
-      Assert.AreNotEqual(firstModel.CurrentAlbumIndex, nextModel.CurrentAlbumIndex);
-
+      DoLoadNextAlbum(repo);
     }
 
 
@@ -48,17 +32,23 @@ namespace Chinook.Tests
 
     public void MockedDbLoadNextArtist()
     {
-
       var repo = new MockedRepository();
-      var albumInfo = test.DoLoadFirstArtist(repo);
-      Assert.IsNotNull(repo);
-      var firstModel = repo.BuildModel(null);
-      var nextModel = repo.BuildModel(firstModel, Repository.Operation.NextArtist);
-      Assert.IsNotNull(firstModel);
-      Assert.IsNotNull(nextModel);
+      DoLoadNextArtist(repo);
+    }
 
-      Assert.AreEqual(firstModel.CurrentArtistIndex, 1);
-      Assert.AreNotEqual(firstModel.CurrentArtistIndex, nextModel.CurrentArtistIndex);
+    [TestMethod]
+
+    public void MockedDbLoadPrevArtist()
+    {
+      var repo = new MockedRepository();
+      DoLoadPrevArtist(repo);
+    }
+    [TestMethod]
+
+    public void MockedDbLoadPrevAlbum()
+    {
+      var repo = new MockedRepository();
+      DoLoadPrevAlbum(repo);
     }
 
   }
