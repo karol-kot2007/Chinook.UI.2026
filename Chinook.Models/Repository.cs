@@ -66,11 +66,14 @@ namespace Chinook.Models
       var artistModel = new ArtistModel();
       if (currentModel != null)
       {
-        
         artistModel.MaxArtistIndex = ArtistContext.Artists.Count();
         artistModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(artistModel.MaxArtistIndex, operation);
       }
-
+      else
+      {
+        artistModel.MaxArtistIndex = 275;
+      }
+      
       var artist = CreateArtist(artistModel);
       BindProps(artistModel, artist);
       var albums = CreateAlbums(artistModel);

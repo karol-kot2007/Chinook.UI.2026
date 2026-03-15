@@ -8,20 +8,17 @@ namespace RealDbTests
   public class RepositoryTest : TestBase
   {
     [TestMethod]
-
     public void LoadNextArtistRealDb()
     {
       var repo = new Repository();
       DoLoadNextArtist(repo);
     }
 
-
     [TestMethod]
     public void LoadPrevArtist()
     {
       var repo = new Repository();
       DoLoadPrevArtist(repo);
-
     }
 
     [TestMethod]
@@ -29,9 +26,6 @@ namespace RealDbTests
     {
       var repo = new Repository();
       DoLoadNextAlbum(repo);
-
-
-
     }
 
     [TestMethod]
@@ -39,8 +33,6 @@ namespace RealDbTests
     {
       var repo = new Repository();
       DoLoadPrevAlbum(repo);
-
-
     }
 
     [TestMethod]

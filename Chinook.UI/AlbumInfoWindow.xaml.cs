@@ -132,7 +132,7 @@ namespace Chinook.UI
     {
       DisplayMode = mode;
       Repository = repository;
-      var model = Repository.BuildModel(ArtistModel);
+      var model = Repository.BuildModel(null);
       SetModel(model);
 
       ShowDialog();

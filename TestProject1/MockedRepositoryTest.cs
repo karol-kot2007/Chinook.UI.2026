@@ -18,9 +18,7 @@ namespace Chinook.Tests
       DoLoadFirstArtist(repo);
     }
 
-
     [TestMethod]
-
     public void MockedDbLoadNextAlbum()
     {
       var repo = new MockedRepository();
@@ -29,7 +27,6 @@ namespace Chinook.Tests
 
 
     [TestMethod]
-
     public void MockedDbLoadNextArtist()
     {
       var repo = new MockedRepository();
@@ -44,7 +41,6 @@ namespace Chinook.Tests
       DoLoadPrevArtist(repo);
     }
     [TestMethod]
-
     public void MockedDbLoadPrevAlbum()
     {
       var repo = new MockedRepository();
