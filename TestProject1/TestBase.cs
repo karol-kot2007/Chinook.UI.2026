@@ -38,8 +38,8 @@ namespace Chinook.Tests
       var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(null);
-      var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
-      var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextArtist);
+      var albumInfo2 = repo.BuildModel(albumInfo1, Repository.Operation.NextArtist);
+      var albumInfo3 = repo.BuildModel(albumInfo1, Repository.Operation.NextArtist);
 
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
@@ -56,8 +56,8 @@ namespace Chinook.Tests
       var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(null);
-      var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.PrevArtist);
-      var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.PrevArtist);
+      var albumInfo2 = repo.BuildModel(albumInfo1, Repository.Operation.PrevArtist);
+      var albumInfo3 = repo.BuildModel(albumInfo1, Repository.Operation.PrevArtist);
 
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
@@ -74,8 +74,8 @@ namespace Chinook.Tests
       var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(null);
-      var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.NextAlbum);
-      var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.NextAlbum);
+      var albumInfo2 = repo.BuildModel(albumInfo1, Repository.Operation.NextAlbum);
+      var albumInfo3 = repo.BuildModel(albumInfo1, Repository.Operation.NextAlbum);
 
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
@@ -91,8 +91,8 @@ namespace Chinook.Tests
       var albumInfo = DoLoadFirstArtist(repo);
 
       var albumInfo1 = repo.BuildModel(null);
-      var albumInfo2 = repo.BuildModel(albumInfo, Repository.Operation.PrevAlbum);
-      var albumInfo3 = repo.BuildModel(albumInfo, Repository.Operation.PrevAlbum);
+      var albumInfo2 = repo.BuildModel(albumInfo1, Repository.Operation.PrevAlbum);
+      var albumInfo3 = repo.BuildModel(albumInfo1, Repository.Operation.PrevAlbum);
 
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);

@@ -24,7 +24,7 @@ namespace Chinook.UI
     {
 
       InitializeComponent();
-      this.ArtistModel = new ArtistModel();
+
       AlbumInfoControl.AlbumSwapper.OnNext += AlbumInfoControl_OnNext;
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;
       AlbumInfoControl.ArtistSwapper.OnNext += ArtistInfoControl_OnNext;
@@ -63,6 +63,7 @@ namespace Chinook.UI
 
     private void SetModel(ArtistModel model)
     {
+      this.ArtistModel = new ArtistModel();
       DataContext = model;
       AlbumInfoControl.Bind(model, DisplayMode);
       if (DisplayMode == Mode.View)

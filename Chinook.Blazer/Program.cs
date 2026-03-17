@@ -1,5 +1,6 @@
 using Chinook.Blazer.Components;
 using Chinook.DAL;
+using Chinook.Models;
 using SQLitePCL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
-
+builder.Services.AddScoped<IRepository>();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
