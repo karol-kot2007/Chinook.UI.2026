@@ -14,25 +14,20 @@ namespace Chinook.UI
     public ArtistContext ArtistId { get; set; }
     public Track LocalPath { get; set; }
     public Button CancelBtn { get; set; }
-    // public AlbumInfo AlbumName { get; set; }
     public static object   Album { get; private set; }
 
     public AlbumInfoControl()
     {
       InitializeComponent();
       Player = new MediaPlayer();
-      Button btn = new Button();
-
-
     }
-    internal void Bind(AlbumInfoModel model, Mode mode)
+    internal void Bind(ArtistModel model, Mode mode)
     {
 
-      GridAlbum.ItemsSource = model.Tracks;
+      GridAlbum.ItemsSource = model.AlbumInfo.Tracks;
       DisplayMode = mode;
-      ArtistSwapper.Bind("artist", model.ArtistInfo);
-      AlbumSwapper.Bind("album", model.AlbumInfo);
-
+      ArtistSwapper.Bind(model.GetArtistInfo(model));
+      AlbumSwapper.Bind(model.GetAlbumInfo(model)); 
     }
 
     private void dgUsers_AddingNewItem(object sender, AddingNewItemEventArgs e)
@@ -44,15 +39,8 @@ namespace Chinook.UI
     {
       System.Environment.Exit(0);
     }
-
-    private void ok_Button(object sender, RoutedEventArgs e, ArtistContext ArtistId)
-    {
-
-    }
-
     private void PlayBtn_Click(object sender, RoutedEventArgs e)
     {
-      //locql path zakodowac
 
       Track LocalPath = new Track();
       var obj = ((FrameworkElement)sender).DataContext as Track;
@@ -82,15 +70,15 @@ namespace Chinook.UI
       Player.Play();
 
     }
-    private void GridAlbum_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
-
     private void AlbumName_TextChanged(object sender, TextChangedEventArgs e)
     {
 
     }
-  }
+
+    private void AlbumSwapper_Loaded(object sender, RoutedEventArgs e)
+    {
+
+        }
+    }
 
 }
