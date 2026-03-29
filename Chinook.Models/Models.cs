@@ -38,7 +38,7 @@ namespace Chinook.Models
 
     public string GetArtistInfo(ArtistModel model)
     {
-      return "artist:" + model.AlbumInfo.ArtistInfo.Name + " " + model.CurrentArtistIndex.ToString() + "/" + model.MaxArtistIndex ;
+      return "artist:" + model.AlbumInfo.ArtistInfo.Name + " " + (model.CurrentArtistIndex+1).ToString() + "/" + model.MaxArtistIndex ;
     }
 
     public string GetAlbumInfo(ArtistModel model)

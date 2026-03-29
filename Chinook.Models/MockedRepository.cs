@@ -14,13 +14,15 @@ namespace Chinook.Models
     public ArtistContext ArtistContext { get; private set; } = new ArtistContext();
     private void BindProps(ArtistModel artistModel, Artist artist)
     {
-      artistModel.CurrentArtistIndex = artist.ArtistId;
+      // artistModel.CurrentArtistIndex = artist.ArtistId;
       artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
     }
 
+
+
     private List<Album> CreateAlbums(ArtistModel artistModel)
     {
-      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex).ToList();
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex+1).ToList();
       return albums;
     }
 

@@ -34,13 +34,13 @@ namespace Chinook.Models
 
     private void BindProps(ArtistModel artistModel, Artist artist)
     {
-      artistModel.CurrentArtistIndex = artist.ArtistId;
+    // artistModel.CurrentArtistIndex = artist.ArtistId;
       artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
     }
 
     private List<Album> CreateAlbums(ArtistModel artistModel)
     {
-      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex).ToList();
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex+1).ToList();
       return albums;
     }
 
@@ -49,7 +49,6 @@ namespace Chinook.Models
       var album = albums[artistModel.CurrentAlbumIndex];
       return album;
     }
-
     private Artist CreateArtist(ArtistModel artistModel)
     {
       var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
@@ -64,15 +63,13 @@ namespace Chinook.Models
     public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
     {
       var artistModel = new ArtistModel();
+      artistModel.MaxArtistIndex = ArtistContext.Artists.Count();
       if (currentModel != null)
       {
-        artistModel.MaxArtistIndex = ArtistContext.Artists.Count();
+       
         artistModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(artistModel.MaxArtistIndex, operation);
       }
-      else
-      {
-        artistModel.MaxArtistIndex = 275;
-      }
+  
       
       var artist = CreateArtist(artistModel);
       BindProps(artistModel, artist);
