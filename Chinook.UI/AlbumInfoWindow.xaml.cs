@@ -24,6 +24,7 @@ namespace Chinook.UI
     {
 
       InitializeComponent();
+      //zmienic to
       this.ArtistModel = new ArtistModel();
       AlbumInfoControl.AlbumSwapper.OnNext += AlbumInfoControl_OnNext;
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;

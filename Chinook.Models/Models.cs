@@ -9,6 +9,31 @@ namespace Chinook.Models
     public int Id { get; set; }
     public int Current { get; set; }
     public int Max { get; set; }
+    public enum BaseOperation
+    {
+      Next, Prev
+    }
+
+    public int ModifyCurrent(BaseOperation operation,int max)
+    {
+      switch (operation)
+      {
+        case BaseOperation.Next:
+          Current++;
+          if(Current == max)
+            Current = 0;
+        return Current;
+
+        case BaseOperation.Prev:
+          Current--;
+          if(Current < 0) 
+            Current = max-1;
+          return Current; 
+        default:
+          return 0;
+
+      }
+    }
   }
   public class ArtistInfo : Info
   {
@@ -36,35 +61,29 @@ namespace Chinook.Models
     public int MaxArtistIndex { get; set; }
     public AlbumInfoModel AlbumInfo { get; set; } = new();
 
+    private Info info = new();
     public string GetArtistInfo(ArtistModel model)
     {
-      return "artist:" + model.AlbumInfo.ArtistInfo.Name + " " + (model.CurrentArtistIndex+1).ToString() + "/" + model.MaxArtistIndex ;
+      return "artist:" + model.AlbumInfo.ArtistInfo.Name + " " + (model.CurrentArtistIndex + 1).ToString() + "/" + model.MaxArtistIndex;
     }
 
     public string GetAlbumInfo(ArtistModel model)
     {
-      return "album:" + model.AlbumInfo.AlbumInfo.Name + " " + (model.CurrentAlbumIndex+1).ToString() + "/" + model.MaxAlbumIndex;
+      return "album:" + model.AlbumInfo.AlbumInfo.Name + " " + (model.CurrentAlbumIndex + 1).ToString() + "/" + model.MaxAlbumIndex;
     }
     public int ModifyArtistIndex(int maxArtistIndex, Operation? operation = null)
     {
       switch (operation)
       {
         case Operation.NextArtist:
-          AlbumInfo.ArtistInfo.Current++;
+          //AlbumInfo.ArtistInfo.Current++;
           AlbumInfo.AlbumInfo.Current = 0;
-          if (AlbumInfo.ArtistInfo.Current == maxArtistIndex)
-          {
-            AlbumInfo.ArtistInfo.Current = 0;
-          }
+          AlbumInfo.ArtistInfo.Current = info.ModifyCurrent(operation: Info.BaseOperation.Next, maxArtistIndex);
           break;
 
         case Operation.PrevArtist:
-          AlbumInfo.ArtistInfo.Current--;
           AlbumInfo.AlbumInfo.Current = 0;
-          if (AlbumInfo.ArtistInfo.Current < 0)
-          {
-            AlbumInfo.ArtistInfo.Current = maxArtistIndex - 1;
-          }
+          AlbumInfo.ArtistInfo.Current = info.ModifyCurrent(operation: Info.BaseOperation.Prev, maxArtistIndex);
           break;
       }
       return AlbumInfo.ArtistInfo.Current;
@@ -75,15 +94,11 @@ namespace Chinook.Models
       switch (operation)
       {
         case Operation.NextAlbum:
-          AlbumInfo.AlbumInfo.Current++;
-          if (AlbumInfo.AlbumInfo.Current == maxAlbumIndex)
-            AlbumInfo.AlbumInfo.Current = 0;
+          AlbumInfo.AlbumInfo.Current = info.ModifyCurrent(operation: Info.BaseOperation.Next, maxAlbumIndex);
           break;
 
         case Operation.PrevAlbum:
-          AlbumInfo.AlbumInfo.Current--;
-          if (AlbumInfo.AlbumInfo.Current < 0)
-            AlbumInfo.AlbumInfo.Current = maxAlbumIndex - 1;
+          AlbumInfo.AlbumInfo.Current = info.ModifyCurrent(operation: Info.BaseOperation.Prev, maxAlbumIndex);
           break;
       }
       return AlbumInfo.AlbumInfo.Current;

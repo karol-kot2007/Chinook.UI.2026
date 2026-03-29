@@ -32,28 +32,8 @@ namespace Chinook.Models
       NextArtist, PrevArtist, NextAlbum, PrevAlbum
     }
 
-    private void BindProps(ArtistModel artistModel, Artist artist)
-    {
-    // artistModel.CurrentArtistIndex = artist.ArtistId;
-      artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
-    }
 
-    private List<Album> CreateAlbums(ArtistModel artistModel)
-    {
-      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex+1).ToList();
-      return albums;
-    }
 
-    private Album CreateAlbum(List<Album> albums, ArtistModel artistModel)
-    {
-      var album = albums[artistModel.CurrentAlbumIndex];
-      return album;
-    }
-    private Artist CreateArtist(ArtistModel artistModel)
-    {
-      var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
-      return artist;
-    }
 
     private List<Track> CreateTracks(Album album)
     {
@@ -71,9 +51,10 @@ namespace Chinook.Models
       }
   
       
-      var artist = CreateArtist(artistModel);
-      BindProps(artistModel, artist);
-      var albums = CreateAlbums(artistModel);
+      var artist =  ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
+      artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
+      //zmienic indeksowanie , na 0 zeby dzialalo
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex + 1).ToList();
       artistModel.MaxAlbumIndex = albums.Count;
 
       if (currentModel != null)
@@ -83,7 +64,7 @@ namespace Chinook.Models
 
       if (artistModel.MaxAlbumIndex > 0)
       {
-        var album = CreateAlbum(albums, artistModel);
+        var album = albums[artistModel.CurrentAlbumIndex];
         artistModel.AlbumInfo.AlbumInfo.Id = album.AlbumId;
         artistModel.AlbumInfo.AlbumInfo.Name = album.Title;
         artistModel.AlbumInfo.Tracks = CreateTracks(album);
