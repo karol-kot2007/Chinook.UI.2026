@@ -16,68 +16,43 @@ namespace Chinook.UI
   public partial class AlbumInfoWindow : Window
   {
     public ArtistModel ArtistModel { get; private set; }
-    public AlbumInfoModel AlbumInfoModel { get; set; }
-    public ArtistInfo ArtistInfo { get; set; }
-    public AlbumInfo AlbumInfo { get; set; }
-    public Track trackId { get; set; }
-    public AlbumTrack trackName { get; set; }
+    public AlbumInfoModel AlbumInfoModel { get; private set; }
+    IRepository Repository { get; set; }
     public Mode DisplayMode { get; set; }
 
     public AlbumInfoWindow()
     {
 
       InitializeComponent();
-      this.ArtistModel = new ArtistModel();
+
       AlbumInfoControl.AlbumSwapper.OnNext += AlbumInfoControl_OnNext;
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;
       AlbumInfoControl.ArtistSwapper.OnNext += ArtistInfoControl_OnNext;
       AlbumInfoControl.ArtistSwapper.OnPrev += ArtistInfoControl_onPrev;
-     
+
     }
 
     public void ArtistInfoControl_onPrev(object? sender, EventArgs e)
     {
-      ArtistModel.CurrentArtistIndex--;
-      ArtistModel.CurrentAlbumIndex = 0;
-      if (ArtistModel.CurrentArtistIndex < 0)
-      {
-       ArtistModel.CurrentArtistIndex = ArtistModel.MaxArtistIndex - 1;
-      }
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.PrevArtist);
+      SetModel(model);
     }
     public void ArtistInfoControl_OnNext(object? sender, EventArgs e)
     {
-       ArtistModel.CurrentArtistIndex++;
-      ArtistModel.CurrentAlbumIndex = 0;
-      if (ArtistModel.CurrentArtistIndex == ArtistModel.MaxArtistIndex)
-      {
-        ArtistModel.CurrentArtistIndex = 0;
-      }
-      
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.NextArtist);
+      SetModel(model);
     }
 
     public void AlbumInfoControl_onPrev(object? sender, EventArgs e)
     {
-      Debug.WriteLine("btn clicked Prev !!!!!!!!!!" + ArtistModel.MaxAlbumIndex + " " + ArtistModel.CurrentAlbumIndex);
-      ArtistModel.CurrentAlbumIndex--;
-      if (ArtistModel.CurrentAlbumIndex < 0)
-      {
-        ArtistModel.CurrentAlbumIndex = ArtistModel.MaxAlbumIndex - 1;
-      }
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.PrevAlbum);
+      SetModel(model);
     }
 
     public void AlbumInfoControl_OnNext(object? sender, EventArgs e)
     {
-      ArtistModel.CurrentAlbumIndex++;
-      if (ArtistModel.CurrentAlbumIndex == ArtistModel.MaxAlbumIndex)
-      {
-        ArtistModel.CurrentAlbumIndex = 0;
-   
-      }
-  
-      SetModel();
+      var model = Repository.BuildModel(ArtistModel, Models.Repository.Operation.NextAlbum);
+      SetModel(model);
     }
 
     protected override void OnInitialized(EventArgs e)
@@ -86,8 +61,9 @@ namespace Chinook.UI
     }
 
 
-    private void SetModel(AlbumInfoModel model)
+    private void SetModel(ArtistModel model)
     {
+      this.ArtistModel = new ArtistModel();
       DataContext = model;
       AlbumInfoControl.Bind(model, DisplayMode);
       if (DisplayMode == Mode.View)
@@ -99,8 +75,20 @@ namespace Chinook.UI
       {
         CloseBtn.Visibility = Visibility.Collapsed;
       }
-      AlbumInfoModel = model;
-      
+      AlbumInfoModel = model.AlbumInfo;
+
+      if (model.AlbumInfo.Tracks == null)
+      {
+        AlbumInfoControl.AlbumName.Text = "no match";
+        AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
+      }
+      else
+      {
+        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
+        AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
+
+      }
+      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -114,7 +102,7 @@ namespace Chinook.UI
               });
     }
 
-    
+
     private void CloseBtn_Click(object sender, RoutedEventArgs e)
     {
 
@@ -141,38 +129,22 @@ namespace Chinook.UI
 
     }
 
-    internal void Show(Mode mode)
+    internal void Show(Mode mode, IRepository repository)
     {
       DisplayMode = mode;
-
-      SetModel();
+      Repository = repository;
+      var model = Repository.BuildModel(null);
+      SetModel(model);
 
       ShowDialog();
     }
 
-    private void SetModel()
+  
+    
+
+    private void AlbumInfoControl_Loaded(object sender, RoutedEventArgs e)
     {
-      ArtistContext context = new ArtistContext();
-         
-     var model = ArtistModel.BuildModel(context);
-      if (model.Tracks == null)
-      {
-   
-        AlbumInfoControl.AlbumName.Text = "no match";
-        AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
 
-
-      }
-      else
-      {
-        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.Name;
-        AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
-       
-      }
-      AlbumInfoControl.ArtistName.Text = model.ArtistInfo.Name;
-      SetModel(model);
     }
-
-    //dodac  private void
   }
 }

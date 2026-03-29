@@ -30,17 +30,9 @@ namespace Chinook.UI
         OnNext(this, e);
       }
     }
-
-    internal void Bind(string prefix,int current, int max, string name)
+    internal void Bind(string info)
     {
-      
-      Content.Text =prefix+ " : " + name + " " +(current + 1)+ " " + "/"+ max + " ";
-      //CurrentAlbum.Text ="Album : " + ArtistName + " " + (currentAlb + 1) + " " + "/ "+  maxAlb + " ";
-     
-    }
-    internal void Bind(string prefix, Info info)
-    {
-      Bind(prefix, info.Current, info.Max, info.Name);
+      Content.Text = info;
     }
 
   }

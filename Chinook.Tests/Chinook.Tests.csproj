@@ -1,0 +1,15 @@
+﻿<Project Sdk="MSTest.Sdk/3.6.0">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chinook.Models\Chinook.Models.csproj" />
+  </ItemGroup>
+
+</Project>
