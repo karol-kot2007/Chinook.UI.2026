@@ -37,7 +37,7 @@ namespace Chinook.Tests
       var albumInfo = DoLoadFirstArtist(repo);
       var albumInfo1 = repo.BuildModel(null);
       var albumInfo2 = repo.BuildModel(albumInfo1, op);
-      var albumInfo3 = repo.BuildModel(albumInfo1, op);
+      var albumInfo3 = repo.BuildModel(albumInfo2, op);
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
       Assert.IsNotNull(albumInfo3);
@@ -53,8 +53,8 @@ namespace Chinook.Tests
           break;
         case Repository.Operation.PrevArtist:
           Assert.AreEqual(albumInfo1.CurrentArtistIndex, 0);
-          //Assert.AreEqual(albumInfo2.CurrentArtistIndex, albumInfo2.MaxArtistIndex);
-          //Assert.AreEqual(albumInfo3.CurrentArtistIndex, albumInfo3.MaxArtistIndex-1);
+          Assert.AreEqual(albumInfo2.CurrentArtistIndex, albumInfo2.MaxArtistIndex);
+          Assert.AreEqual(albumInfo3.CurrentArtistIndex, albumInfo3.MaxArtistIndex);
           Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
           Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
           Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
@@ -69,6 +69,7 @@ namespace Chinook.Tests
           Assert.AreEqual(albumInfo1.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
           break;
         case Repository.Operation.PrevAlbum:
+          // ac/dc ma 2 albumy 
           Assert.AreEqual(albumInfo1.CurrentAlbumIndex, 0);
           Assert.AreEqual(albumInfo2.CurrentAlbumIndex, 1);
           Assert.AreEqual(albumInfo3.CurrentAlbumIndex, 0);
