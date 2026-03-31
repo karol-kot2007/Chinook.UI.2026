@@ -7,29 +7,37 @@ namespace Chinook.Models
   {
     public string? Name { get; set; }
     public int Id { get; set; }
-    public int Current { get; set; }
-    public int Max { get; set; }
+    public int CurrentIndex { get; set; } = -1;
+    public int MaxIndex { get; set; }
     public enum BaseOperation
     {
       Next, Prev
     }
 
-    public int ModifyCurrent(BaseOperation operation,int max)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="operation"></param>
+    /// <param name="max"></param>
+    /// <returns></returns>
+    public int ModifyCurrent(BaseOperation operation, int max)
     {
-      if (max <= -1) return 0;
+      if (max <= -1) 
+        return -1;
+
       switch (operation)
       {
         case BaseOperation.Next:
-          Current++;
-          if(Current > max)
-            Current = 0;
-        return Current;
+          CurrentIndex++;
+          if(CurrentIndex > max)
+            CurrentIndex = 0;
+        return CurrentIndex;
 
         case BaseOperation.Prev:
-          Current--;
-          if(Current < 0) 
-            Current = max;
-          return Current; 
+          CurrentIndex--;
+          if(CurrentIndex < 0) 
+            CurrentIndex = max;
+          return CurrentIndex; 
         default:
           return 0;
       }
@@ -38,7 +46,19 @@ namespace Chinook.Models
   }
   public class ArtistInfo : Info
   {
+    public ArtistInfo() { }
+    public ArtistInfo(DAL.Models.Artist artist, int maxIndex, int currentIndex) 
+    { 
+      Name = artist.Name;
+      Id = artist.ArtistId;
+      MaxIndex = maxIndex;
+      CurrentIndex = currentIndex;
+    }
 
+    public override string ToString()
+    {
+      return base.ToString() + " " + Name;
+    }
   }
   public class AlbumInfo : Info
   {
@@ -56,10 +76,11 @@ namespace Chinook.Models
   }
   public class ArtistModel
   {
-    public int CurrentAlbumIndex { get; set; }
-    public int CurrentArtistIndex { get; set; }
-    public int MaxAlbumIndex { get; set; }
-    public int MaxArtistIndex { get; set; }
+    public int CurrentAlbumIndex => AlbumInfo.AlbumInfo.CurrentIndex;
+    public int MaxAlbumIndex => AlbumInfo.AlbumInfo.MaxIndex;
+
+    public int CurrentArtistIndex => AlbumInfo.ArtistInfo.CurrentIndex;
+    public int MaxArtistIndex => AlbumInfo.ArtistInfo.MaxIndex;
     public AlbumInfoModel AlbumInfo { get; set; } = new();
     public string GetArtistInfo(ArtistModel model)
     {
@@ -75,16 +96,16 @@ namespace Chinook.Models
       switch (operation)
       {
         case Operation.NextArtist:
-          AlbumInfo.AlbumInfo.Current = 0;
+          AlbumInfo.AlbumInfo.CurrentIndex = 0;
           AlbumInfo.ArtistInfo.ModifyCurrent(Info.BaseOperation.Next, maxArtistIndex);
           break;
 
         case Operation.PrevArtist:
-          AlbumInfo.AlbumInfo.Current = 0;
+          AlbumInfo.AlbumInfo.CurrentIndex = 0;
           AlbumInfo.ArtistInfo.ModifyCurrent(Info.BaseOperation.Prev, maxArtistIndex);
           break;
       }
-      return AlbumInfo.ArtistInfo.Current;
+      return AlbumInfo.ArtistInfo.CurrentIndex;
     }
 
     public int ModifyAlbumIndex(int maxAlbumIndex, Operation? operation = null)
@@ -100,7 +121,7 @@ namespace Chinook.Models
           break;
       }
 
-      return AlbumInfo.AlbumInfo.Current;
+      return AlbumInfo.AlbumInfo.CurrentIndex;
     }
 
 

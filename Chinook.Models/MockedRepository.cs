@@ -15,51 +15,51 @@ namespace Chinook.Models
     public ArtistContext ArtistContext { get; private set; } = new ArtistContext();
     public MockedRepository()
     {
-      artist.Add(new ArtistModel
-      {
-        CurrentAlbumIndex = 1,
-        CurrentArtistIndex = 0,
-        MaxAlbumIndex = 3,
+      //artist.Add(new ArtistModel
+      //{
+      //  CurrentAlbumIndex = 1,
+      //  CurrentArtistIndex = 0,
+      //  MaxAlbumIndex = 3,
 
 
-      });
+      //});
 
-      artist.Add(new ArtistModel
-      {
-        CurrentAlbumIndex = 2,
-        CurrentArtistIndex = 2,
-        MaxAlbumIndex = 2,
+      //artist.Add(new ArtistModel
+      //{
+      //  CurrentAlbumIndex = 2,
+      //  CurrentArtistIndex = 2,
+      //  MaxAlbumIndex = 2,
 
 
-      });
+      //});
     }
     public ArtistModel BuildModel(ArtistModel? currentModel = null, Repository.Operation? operation = null)
     {
       var artistModel = new ArtistModel();
-      if (currentModel != null)
-      {
+      //if (currentModel != null)
+      //{
 
-        artistModel.MaxArtistIndex = ArtistContext.Artists.Count() - 1;
-        artistModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(artistModel.MaxArtistIndex, operation);
-      }
+      //  artistModel.MaxArtistIndex = ArtistContext.Artists.Count() - 1;
+      //  artistModel.CurrentArtistIndex = currentModel.ModifyArtistIndex(artistModel.MaxArtistIndex, operation);
+      //}
 
-      var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
-      artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
-      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex + 1).ToList();
-      artistModel.MaxAlbumIndex = albums.Count - 1;
+      //var artist = ArtistContext.Artists.ElementAt(artistModel.CurrentArtistIndex);
+      //artistModel.AlbumInfo.ArtistInfo.Name = artist.Name;
+      //var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistModel.CurrentArtistIndex + 1).ToList();
+      //artistModel.MaxAlbumIndex = albums.Count - 1;
 
-      if (currentModel != null)
-      {
-        artistModel.CurrentAlbumIndex = currentModel.ModifyAlbumIndex(artistModel.MaxAlbumIndex, operation);
-      }
+      //if (currentModel != null)
+      //{
+      //  artistModel.CurrentAlbumIndex = currentModel.ModifyAlbumIndex(artistModel.MaxAlbumIndex, operation);
+      //}
 
-      if (artistModel.MaxAlbumIndex > 0)
-      {
-        var album = albums[artistModel.CurrentAlbumIndex];
-        artistModel.AlbumInfo.AlbumInfo.Id = album.AlbumId;
-        artistModel.AlbumInfo.AlbumInfo.Name = album.Title;
-        artistModel.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
-      }
+      //if (artistModel.MaxAlbumIndex > 0)
+      //{
+      //  var album = albums[artistModel.CurrentAlbumIndex];
+      //  artistModel.AlbumInfo.AlbumInfo.Id = album.AlbumId;
+      //  artistModel.AlbumInfo.AlbumInfo.Name = album.Title;
+      //  artistModel.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
+      //}
       return artistModel;
     }
   }
