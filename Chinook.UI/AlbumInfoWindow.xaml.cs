@@ -15,14 +15,16 @@ namespace Chinook.UI
 {//prev i warunkibrzegowe
   public partial class AlbumInfoWindow : Window
   {
-    public ArtistModel ArtistModel => DataContext as ArtistModel;
-    public AlbumInfoModel AlbumInfoModel { get; private set; }
-    IRepository Repository { get; set; }
+    // public ArtistModel ArtistModel => DataContext as ArtistModel;
+    public ArtistModel ArtistModel { get; private set; }
+    public AlbumInfoModel AlbumInfoModel { get; private set; } = new AlbumInfoModel();
+    IRepository Repository { get; set; } = null!;
     public Mode DisplayMode { get; set; }
 
     public AlbumInfoWindow()
     {
       InitializeComponent();
+      this.ArtistModel = new();
       AlbumInfoControl.AlbumSwapper.OnNext += AlbumInfoControl_OnNext;
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;
       AlbumInfoControl.ArtistSwapper.OnNext += ArtistInfoControl_OnNext;
