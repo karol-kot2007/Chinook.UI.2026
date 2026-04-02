@@ -62,7 +62,19 @@ namespace Chinook.Models
   }
   public class AlbumInfo : Info
   {
+    public AlbumInfo() { }
+    public AlbumInfo(DAL.Models.Album album, int maxIndex, int currentIndex)
+    {
+      Name = album.Title;
+      Id = album.AlbumId;
+      MaxIndex = maxIndex;
+      CurrentIndex = currentIndex;
+    }
 
+    public override string ToString()
+    {
+      return base.ToString() + " " + Name;
+    }
   }
   public class TrackInfo : Info
   {
