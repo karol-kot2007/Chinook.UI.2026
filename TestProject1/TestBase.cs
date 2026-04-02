@@ -35,23 +35,16 @@ namespace Chinook.Tests
     protected void DoIndexOperation(IRepository repo, Repository.Operation op)
     {
       var albumInfo = DoLoadFirstArtist(repo);
-      var albumInfo1 = repo.BuildModel(albumInfo);
-      var albumInfo2 = repo.BuildModel(albumInfo1, op);
-      var albumInfo3 = repo.BuildModel(albumInfo2, op);
-      Assert.IsNotNull(albumInfo1);
-      Assert.IsNotNull(albumInfo2);
-     // Assert.IsNotNull(albumInfo3);
+      var albumInfo1 = repo.BuildModel(albumInfo, op); 
+      var albumInfo2 = repo.BuildModel(albumInfo1, op); 
+      var albumInfo3 = repo.BuildModel(albumInfo2, op); 
+
       switch (op)
       {
         case Repository.Operation.NextArtist:
-          Assert.AreEqual(albumInfo.CurrentArtistIndex, 0);
-          Assert.AreEqual(albumInfo1.CurrentArtistIndex, 1);
-          Assert.AreEqual(albumInfo2.CurrentArtistIndex,2);
-          Assert.AreEqual(albumInfo3.CurrentArtistIndex, 3);
-         // Assert.AreEqual(albumInfo3.CurrentArtistIndex, 3);
-          Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
-    //      Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
-         // Assert.AreEqual(albumInfo1.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
+          Assert.AreEqual(1, albumInfo1.CurrentArtistIndex);
+          Assert.AreEqual(2, albumInfo2.CurrentArtistIndex);
+          Assert.AreEqual(3, albumInfo3.CurrentArtistIndex);
           break;
         case Repository.Operation.PrevArtist:
           Assert.AreEqual(albumInfo.CurrentArtistIndex, 0);

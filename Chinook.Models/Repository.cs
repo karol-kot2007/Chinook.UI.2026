@@ -45,7 +45,7 @@ namespace Chinook.Models
         artistIndex = modelToUse.CurrentArtistIndex;
       var artist = ArtistContext.Artists.ElementAt(artistIndex);
       var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
-      result.AlbumInfo.ArtistInfo = artistInfo;
+      modelToUse.AlbumInfo.ArtistInfo = artistInfo;
       var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistIndex + 1).ToList();
       int MaxAlbumIndex = albums.Count() - 1;
       switch (operation)
@@ -62,13 +62,13 @@ namespace Chinook.Models
       if (MaxAlbumIndex > -1)
       {
         var album = albums[albumIndex];
-        result.AlbumInfo.AlbumInfo.Id = album.AlbumId;
-        result.AlbumInfo.AlbumInfo.Name = album.Title;
+        modelToUse.AlbumInfo.AlbumInfo.Id = album.AlbumId;
+        modelToUse.AlbumInfo.AlbumInfo.Name = album.Title;
         var albumInfo = new AlbumInfo(album, MaxAlbumIndex, albumIndex);
-        result.AlbumInfo.AlbumInfo = albumInfo;
-        result.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
+        modelToUse.AlbumInfo.AlbumInfo = albumInfo;
+        modelToUse.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
       }
-      return result;
+      return modelToUse;
     }
   }
 }
