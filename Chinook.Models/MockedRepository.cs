@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Chinook.Models.Repository;
 
 namespace Chinook.Models
 {
@@ -36,6 +37,48 @@ namespace Chinook.Models
     public ArtistModel BuildModel(ArtistModel? currentModel = null, Repository.Operation? operation = null)
     {
       var artistModel = new ArtistModel();
+      var result = new ArtistModel();
+      int maxArtistIndex = ArtistContext.Artists.Count() - 1;
+      var modelToUse = currentModel ?? result;
+      int artistIndex = modelToUse.CurrentArtistIndex;
+      int albumIndex = 0;
+      switch (operation)
+      {
+        case Operation.NextArtist:
+          artistIndex = modelToUse.ModifyArtistIndex(maxArtistIndex, operation);
+          break;
+        case Operation.PrevArtist:
+          artistIndex = modelToUse.ModifyArtistIndex(maxArtistIndex, operation);
+          break;
+        default:
+          break;
+      }
+      var artist = ArtistContext.Artists.ElementAt(artistIndex);
+      var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
+      result.AlbumInfo.ArtistInfo = artistInfo;
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistIndex + 1).ToList();
+      int MaxAlbumIndex = albums.Count() - 1;
+      switch (operation)
+      {
+        case Operation.NextAlbum:
+          albumIndex = modelToUse.ModifyAlbumIndex(MaxAlbumIndex, operation);
+          break;
+        case Operation.PrevAlbum:
+          albumIndex = modelToUse.ModifyAlbumIndex(MaxAlbumIndex, operation);
+          break;
+        default:
+          break;
+      }
+      if (MaxAlbumIndex > -1)
+      {
+        var album = albums[albumIndex];
+        result.AlbumInfo.AlbumInfo.Id = album.AlbumId;
+        result.AlbumInfo.AlbumInfo.Name = album.Title;
+        var albumInfo = new AlbumInfo(album, MaxAlbumIndex, albumIndex);
+        result.AlbumInfo.AlbumInfo = albumInfo;
+        result.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
+      }
+      return result;
       //if (currentModel != null)
       //{
 

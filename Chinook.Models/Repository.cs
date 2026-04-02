@@ -18,20 +18,17 @@ namespace Chinook.Models
   }
   public class Repository : IRepository
   {
-    private int arID;
     public ArtistContext ArtistContext { get; private set; } = new ArtistContext();
     public enum Operation
     {
       NextArtist, PrevArtist, NextAlbum, PrevAlbum
     }
-
-
     public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
     {
       var result = new ArtistModel();
       int maxArtistIndex = ArtistContext.Artists.Count() - 1;
       var modelToUse = currentModel ?? result;
-      int artistIndex = modelToUse.CurrentArtistIndex;
+      int artistIndex = -1;
       int albumIndex = 0;
       switch (operation)
       {
@@ -44,6 +41,8 @@ namespace Chinook.Models
         default:
           break;
       }
+      if (artistIndex == -1)
+        artistIndex = modelToUse.CurrentArtistIndex;
       var artist = ArtistContext.Artists.ElementAt(artistIndex);
       var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
       result.AlbumInfo.ArtistInfo = artistInfo;

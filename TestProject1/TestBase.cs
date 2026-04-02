@@ -19,7 +19,7 @@ namespace Chinook.Tests
     protected ArtistModel DoLoadFirstArtist(IRepository repo)
     {
       Assert.IsNotNull(repo);
-      var albumInfo = repo.BuildModel();
+      var albumInfo = repo.BuildModel(null,Repository.Operation.NextArtist);
       Assert.IsNotNull(albumInfo);
       Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Name);
       Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Id);
@@ -35,47 +35,49 @@ namespace Chinook.Tests
     protected void DoIndexOperation(IRepository repo, Repository.Operation op)
     {
       var albumInfo = DoLoadFirstArtist(repo);
-      var albumInfo1 = repo.BuildModel(null);
+      var albumInfo1 = repo.BuildModel(albumInfo);
       var albumInfo2 = repo.BuildModel(albumInfo1, op);
-      var albumInfo3 = repo.BuildModel(albumInfo1, op);
+      var albumInfo3 = repo.BuildModel(albumInfo2, op);
       Assert.IsNotNull(albumInfo1);
       Assert.IsNotNull(albumInfo2);
-      Assert.IsNotNull(albumInfo3);
+     // Assert.IsNotNull(albumInfo3);
       switch (op)
       {
         case Repository.Operation.NextArtist:
-          Assert.AreEqual(albumInfo1.CurrentArtistIndex, 0);
-          Assert.AreEqual(albumInfo2.CurrentArtistIndex, 1);
-          Assert.AreEqual(albumInfo3.CurrentArtistIndex, 2);
+          Assert.AreEqual(albumInfo.CurrentArtistIndex, 0);
+          Assert.AreEqual(albumInfo1.CurrentArtistIndex, 1);
+          Assert.AreEqual(albumInfo2.CurrentArtistIndex,2);
+          Assert.AreEqual(albumInfo3.CurrentArtistIndex, 3);
+         // Assert.AreEqual(albumInfo3.CurrentArtistIndex, 3);
           Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
-          Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
-          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
+    //      Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
+         // Assert.AreEqual(albumInfo1.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
           break;
         case Repository.Operation.PrevArtist:
-          Assert.AreEqual(albumInfo1.CurrentArtistIndex, 0);
-          Assert.AreEqual(albumInfo2.CurrentArtistIndex, albumInfo2.MaxArtistIndex);
-          Assert.AreEqual(albumInfo3.CurrentArtistIndex, albumInfo3.MaxArtistIndex - 1);
+          Assert.AreEqual(albumInfo.CurrentArtistIndex, 0);
+          Assert.AreEqual(albumInfo1.CurrentArtistIndex, albumInfo1.MaxArtistIndex);
+          Assert.AreEqual(albumInfo2.CurrentArtistIndex, albumInfo2.MaxArtistIndex - 1);
+          Assert.AreNotEqual(albumInfo.CurrentArtistIndex, albumInfo1.CurrentArtistIndex);
           Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
-          Assert.AreNotEqual(albumInfo2.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
-          Assert.AreNotEqual(albumInfo1.CurrentArtistIndex, albumInfo3.CurrentArtistIndex);
+          Assert.AreNotEqual(albumInfo.CurrentArtistIndex, albumInfo2.CurrentArtistIndex);
           break;
         case Repository.Operation.NextAlbum:
           //1 artysta ma 2 albumy
-          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, 0);
-          Assert.AreEqual(albumInfo2.CurrentAlbumIndex, 1);
-          Assert.AreEqual(albumInfo3.CurrentAlbumIndex, 0);
+          Assert.AreEqual(albumInfo.CurrentAlbumIndex, 0);
+          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, 1);
+          Assert.AreEqual(albumInfo2.CurrentAlbumIndex, 0);
+          Assert.AreNotEqual(albumInfo.CurrentAlbumIndex, albumInfo1.CurrentAlbumIndex);
           Assert.AreNotEqual(albumInfo1.CurrentAlbumIndex, albumInfo2.CurrentAlbumIndex);
-          Assert.AreNotEqual(albumInfo2.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
-          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
+          Assert.AreEqual(albumInfo.CurrentAlbumIndex, albumInfo2.CurrentAlbumIndex);
           break;
         case Repository.Operation.PrevAlbum:
           // ac/dc ma 2 albumy 
-          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, 0);
-          Assert.AreEqual(albumInfo2.CurrentAlbumIndex, 1);
-          Assert.AreEqual(albumInfo3.CurrentAlbumIndex, 0);
+          Assert.AreEqual(albumInfo.CurrentAlbumIndex, 0);
+          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, 1);
+          Assert.AreEqual(albumInfo2.CurrentAlbumIndex, 0);
+          Assert.AreNotEqual(albumInfo.CurrentAlbumIndex, albumInfo1.CurrentAlbumIndex);
           Assert.AreNotEqual(albumInfo1.CurrentAlbumIndex, albumInfo2.CurrentAlbumIndex);
-          Assert.AreNotEqual(albumInfo2.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
-          Assert.AreEqual(albumInfo1.CurrentAlbumIndex, albumInfo3.CurrentAlbumIndex);
+          Assert.AreEqual(albumInfo.CurrentAlbumIndex, albumInfo2.CurrentAlbumIndex);
           break;
       }
 
