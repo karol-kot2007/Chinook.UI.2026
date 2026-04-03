@@ -29,35 +29,19 @@ namespace Chinook.Models
       int maxArtistIndex = ArtistContext.Artists.Count() - 1;
       var modelToUse = currentModel ?? result;
       int artistIndex = -1;
-      switch (operation)
-      {
-        case Operation.NextArtist:
-          artistIndex = modelToUse.ModifyArtistIndex(operation);
-          break;
-        case Operation.PrevArtist:
-          artistIndex = modelToUse.ModifyArtistIndex(operation);
-          break;
-        default:
-          break;
-      }
+      if(operation == Operation.NextArtist || operation == Operation.PrevArtist)
+        artistIndex = modelToUse.ModifyArtistIndex(operation);
       if (artistIndex == -1)
         artistIndex = modelToUse.CurrentArtistIndex;
       var artist = ArtistContext.Artists.ElementAt(artistIndex);
       var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
       modelToUse.AlbumInfo.ArtistInfo = artistInfo;
+
+      //albums
       var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistIndex + 1).ToList();
       int albumIndex = 0;
-      switch (operation)
-      {
-        case Operation.NextAlbum:
+      if (operation == Operation.NextAlbum || operation == Operation.PrevAlbum)
           albumIndex = modelToUse.ModifyAlbumIndex(operation);
-          break;
-        case Operation.PrevAlbum:
-          albumIndex = modelToUse.ModifyAlbumIndex(operation);
-          break;
-        default:
-          break;
-      }
       int MaxAlbumIndex = albums.Count() - 1;
       if (MaxAlbumIndex > -1)
       {
