@@ -23,6 +23,31 @@ namespace Chinook.Models
     {
       return (Pager)Clone();
     }
+
+    public int ModifyCurrent(BaseOperation operation)
+    {
+      int max = MaxIndex;
+      if (max <= -1)
+        return -1;
+
+      switch (operation)
+      {
+        case BaseOperation.Next:
+          CurrentIndex++;
+          if (CurrentIndex > max)
+            CurrentIndex = 0;
+          return CurrentIndex;
+
+        case BaseOperation.Prev:
+          CurrentIndex--;
+          if (CurrentIndex < 0)
+            CurrentIndex = max;
+          return CurrentIndex;
+        default:
+          return 0;
+      }
+
+    }
   }
 
   public class Info
@@ -30,30 +55,7 @@ namespace Chinook.Models
     public string? Name { get; set; }
     public int Id { get; set; }
     public Pager Pager { get; set; } = new();
-    public int ModifyCurrent(BaseOperation operation)
-    {
-      int max = Pager.MaxIndex;
-      if (max <= -1)
-        return -1;
-
-      switch (operation)
-      {
-        case BaseOperation.Next:
-          Pager.CurrentIndex++;
-          if (Pager.CurrentIndex > max)
-            Pager.CurrentIndex = 0;
-          return Pager.CurrentIndex;
-
-        case BaseOperation.Prev:
-          Pager.CurrentIndex--;
-          if (Pager.CurrentIndex < 0)
-            Pager.CurrentIndex = max;
-          return Pager.CurrentIndex;
-        default:
-          return 0;
-      }
-
-    }
+    
   }
   public class ArtistInfo : Info
   {
@@ -125,12 +127,12 @@ namespace Chinook.Models
       {
         case Operation.NextArtist:
           AlbumInfo.AlbumInfo.Pager.CurrentIndex = 0;
-          AlbumInfo.ArtistInfo.ModifyCurrent(BaseOperation.Next);
+          AlbumInfo.ArtistInfo.Pager.ModifyCurrent(BaseOperation.Next);
           break;
 
         case Operation.PrevArtist:
           AlbumInfo.AlbumInfo.Pager.CurrentIndex = 0;
-          AlbumInfo.ArtistInfo.ModifyCurrent(BaseOperation.Prev);
+          AlbumInfo.ArtistInfo.Pager.ModifyCurrent(BaseOperation.Prev);
           break;
       }
       return AlbumInfo.ArtistInfo.Pager.CurrentIndex;
@@ -140,11 +142,11 @@ namespace Chinook.Models
       switch (operation)
       {
         case Operation.NextAlbum:
-          AlbumInfo.AlbumInfo.ModifyCurrent(BaseOperation.Next);
+          AlbumInfo.AlbumInfo.Pager.ModifyCurrent(BaseOperation.Next);
           break;
 
         case Operation.PrevAlbum:
-          AlbumInfo.AlbumInfo.ModifyCurrent(BaseOperation.Prev);
+          AlbumInfo.AlbumInfo.Pager.ModifyCurrent(BaseOperation.Prev);
           break;
       }
       return AlbumInfo.AlbumInfo.Pager.CurrentIndex;
