@@ -38,46 +38,46 @@ namespace Chinook.Models
     {
       var artistModel = new ArtistModel();
       var result = new ArtistModel();
-      var modelToUse = currentModel ?? result;
-      int artistIndex = modelToUse.CurrentArtistIndex;
-      switch (operation)
-      {
-        case Operation.NextArtist:
-          artistIndex = modelToUse.ModifyArtistIndex(operation);
-          break;
-        case Operation.PrevArtist:
-          artistIndex = modelToUse.ModifyArtistIndex(operation);
-          break;
-        default:
-          break;
-      }
-      var artist = ArtistContext.Artists.ElementAt(artistIndex);
-      int maxArtistIndex = ArtistContext.Artists.Count() - 1;
-      var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
-      result.AlbumInfo.ArtistInfo = artistInfo;
-      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistIndex + 1).ToList();
-      int albumIndex = 0;
-      switch (operation)
-      {
-        case Operation.NextAlbum:
-          albumIndex = modelToUse.ModifyAlbumIndex(operation);
-          break;
-        case Operation.PrevAlbum:
-          albumIndex = modelToUse.ModifyAlbumIndex(operation);
-          break;
-        default:
-          break;
-      }
-      int MaxAlbumIndex = albums.Count() - 1;
-      if (MaxAlbumIndex > -1)
-      {
-        var album = albums[albumIndex];
-        result.AlbumInfo.AlbumInfo.Id = album.AlbumId;
-        result.AlbumInfo.AlbumInfo.Name = album.Title;
-        var albumInfo = new AlbumInfo(album, MaxAlbumIndex, albumIndex);
-        result.AlbumInfo.AlbumInfo = albumInfo;
-        result.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
-      }
+      //var modelToUse = currentModel ?? result;
+      //int artistIndex = modelToUse.CurrentArtistIndex;
+      //switch (operation)
+      //{
+      //  case Operation.NextArtist:
+      //    artistIndex = modelToUse.ModifyArtistPager(operation);
+      //    break;
+      //  case Operation.PrevArtist:
+      //    artistIndex = modelToUse.ModifyArtistPager(operation);
+      //    break;
+      //  default:
+      //    break;
+      //}
+      //var artist = ArtistContext.Artists.ElementAt(artistIndex);
+      //int maxArtistIndex = ArtistContext.Artists.Count() - 1;
+      //var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
+      //result.AlbumInfo.ArtistInfo = artistInfo;
+      //var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistIndex + 1).ToList();
+      //int albumIndex = 0;
+      //switch (operation)
+      //{
+      //  case Operation.NextAlbum:
+      //    albumIndex = modelToUse.ModifyAlbumIndex(operation);
+      //    break;
+      //  case Operation.PrevAlbum:
+      //    albumIndex = modelToUse.ModifyAlbumIndex(operation);
+      //    break;
+      //  default:
+      //    break;
+      //}
+      //int MaxAlbumIndex = albums.Count() - 1;
+      //if (MaxAlbumIndex > -1)
+      //{
+      //  var album = albums[albumIndex];
+      //  result.AlbumInfo.AlbumInfo.Id = album.AlbumId;
+      //  result.AlbumInfo.AlbumInfo.Name = album.Title;
+      //  var albumInfo = new AlbumInfo(album, MaxAlbumIndex, albumIndex);
+      //  result.AlbumInfo.AlbumInfo = albumInfo;
+      //  result.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
+      //}
       return result;
     }
   }

@@ -17,7 +17,7 @@ namespace Chinook.UI
   {
     public ArtistModel ArtistModel => DataContext as ArtistModel;
     //public ArtistModel ArtistModel { get; private set; }
-    public AlbumInfoModel AlbumInfoModel { get; private set; } = new AlbumInfoModel();
+    public MusicModel AlbumInfoModel { get; private set; } = new MusicModel();
     IRepository Repository { get; set; } = null!;
     public Mode DisplayMode { get; set; }
 
@@ -73,20 +73,20 @@ namespace Chinook.UI
       {
         CloseBtn.Visibility = Visibility.Collapsed;
       }
-      AlbumInfoModel = model.AlbumInfo;
+      AlbumInfoModel = model.MusicModel;
 
-      if (model.AlbumInfo.Tracks == null)
+      if (model.MusicModel.AlbumInfo.Tracks == null)
       {
         AlbumInfoControl.AlbumName.Text = "no match";
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
       }
       else
       {
-        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
+        AlbumInfoControl.AlbumName.Text = model.MusicModel.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
 
       }
-      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
+      AlbumInfoControl.ArtistName.Text = model.MusicModel.ArtistInfo.Name;
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
