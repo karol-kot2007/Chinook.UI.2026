@@ -21,15 +21,15 @@ namespace Chinook.Tests
       Assert.IsNotNull(repo);
       var albumInfo = repo.BuildModel(null,Repository.Operation.NextArtist);
       Assert.IsNotNull(albumInfo);
-      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Name);
-      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Id);
-      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Pager.CurrentIndex);
-      Assert.IsNotNull(albumInfo.AlbumInfo.ArtistInfo.Pager.MaxIndex);
+      Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Name);
+      Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Id);
+      Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Pager.CurrentIndex);
+      Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Pager.MaxIndex);
 
-      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Name);
-      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Id);
-      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Pager.CurrentIndex);
-      Assert.IsNotNull(albumInfo.AlbumInfo.AlbumInfo.Pager.MaxIndex);
+      Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Name);
+      Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Id);
+      Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Pager.CurrentIndex);
+      Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Pager.MaxIndex);
       return albumInfo;
     }
     protected void DoIndexOperation(IRepository repo, Repository.Operation op)

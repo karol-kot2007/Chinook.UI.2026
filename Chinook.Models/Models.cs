@@ -55,6 +55,11 @@ namespace Chinook.Models
     public string? Name { get; set; }
     public int Id { get; set; }
     public Pager Pager { get; set; } = new();
+
+    public override string ToString()
+    {
+      return base.ToString() + Name;
+    }
     
   }
   public class ArtistInfo : Info
@@ -67,14 +72,17 @@ namespace Chinook.Models
       Pager.MaxIndex = maxIndex;
       Pager.CurrentIndex = currentIndex;
     }
-
-    public override string ToString()
+    public ArtistInfo(DAL.Models.Artist artist, Pager pager)
     {
-      return base.ToString() + " " + Name;
+      Name = artist.Name;
+      Id = artist.ArtistId;
+      Pager = pager;
     }
   }
   public class AlbumInfo : Info
   {
+    public List<Track> Tracks { get; set; }
+
     public AlbumInfo() { }
     public AlbumInfo(DAL.Models.Album album, int maxIndex, int currentIndex)
     {
@@ -82,6 +90,13 @@ namespace Chinook.Models
       Id = album.AlbumId;
       Pager.MaxIndex = maxIndex;
       Pager.CurrentIndex = currentIndex;
+    }
+
+    public AlbumInfo(DAL.Models.Album album, Pager pager)
+    {
+      Name = album.Title;
+      Id = album.AlbumId;
+      Pager = pager;
     }
 
     public override string ToString()
@@ -92,66 +107,33 @@ namespace Chinook.Models
   public class TrackInfo : Info
   {
   }
-  public class AlbumInfoModel
+  public class MusicModel
   {
     public AlbumInfo AlbumInfo { get; set; } = new AlbumInfo();
     public ArtistInfo ArtistInfo { get; set; } = new ArtistInfo();
-    public List<Track> Tracks { get; set; }
+    
   }
   public class ArtistModel
   {
-    public int CurrentAlbumIndex => AlbumInfo.AlbumInfo.Pager.CurrentIndex;
-    public int MaxAlbumIndex => AlbumInfo.AlbumInfo.Pager.MaxIndex;
+    public int CurrentAlbumIndex => MusicModel.AlbumInfo.Pager.CurrentIndex;
+    public int MaxAlbumIndex => MusicModel.AlbumInfo.Pager.MaxIndex;
 
-    public int CurrentArtistIndex => AlbumInfo.ArtistInfo.Pager.CurrentIndex;
-    public int MaxArtistIndex => AlbumInfo.ArtistInfo.Pager.MaxIndex;
-    public AlbumInfoModel AlbumInfo { get; set; } = new();
+    public int CurrentArtistIndex => MusicModel.ArtistInfo.Pager.CurrentIndex;
+    public int MaxArtistIndex => MusicModel.ArtistInfo.Pager.MaxIndex;
+    public MusicModel MusicModel { get; set; } = new();
     public string GetArtistInfo()
     {
-      return "artist:" + AlbumInfo.ArtistInfo.Name + " " + (CurrentArtistIndex + 1).ToString() + "/" + (MaxArtistIndex + 1);
+      return "artist:" + MusicModel.ArtistInfo.Name + " " + (CurrentArtistIndex + 1).ToString() + "/" + (MaxArtistIndex + 1);
     }
 
     public string GetAlbumInfo()
     {
-      return "album:" + AlbumInfo.AlbumInfo.Name + " " + (CurrentAlbumIndex + 1).ToString() + "/" + (MaxAlbumIndex + 1);
+      return "album:" + MusicModel.AlbumInfo.Name + " " + (CurrentAlbumIndex + 1).ToString() + "/" + (MaxAlbumIndex + 1);
     }
 
     public override string ToString()
     {
-      return base.ToString() + "" + AlbumInfo.ArtistInfo;
+      return base.ToString() + "" + MusicModel.ArtistInfo;
     }
-
-    public int ModifyArtistIndex(Operation? operation = null)
-    {
-      switch (operation)
-      {
-        case Operation.NextArtist:
-          AlbumInfo.AlbumInfo.Pager.CurrentIndex = 0;
-          AlbumInfo.ArtistInfo.Pager.ModifyCurrent(BaseOperation.Next);
-          break;
-
-        case Operation.PrevArtist:
-          AlbumInfo.AlbumInfo.Pager.CurrentIndex = 0;
-          AlbumInfo.ArtistInfo.Pager.ModifyCurrent(BaseOperation.Prev);
-          break;
-      }
-      return AlbumInfo.ArtistInfo.Pager.CurrentIndex;
-    }
-    public int ModifyAlbumIndex(Operation? operation = null)
-    {
-      switch (operation)
-      {
-        case Operation.NextAlbum:
-          AlbumInfo.AlbumInfo.Pager.ModifyCurrent(BaseOperation.Next);
-          break;
-
-        case Operation.PrevAlbum:
-          AlbumInfo.AlbumInfo.Pager.ModifyCurrent(BaseOperation.Prev);
-          break;
-      }
-      return AlbumInfo.AlbumInfo.Pager.CurrentIndex;
-    }
-
-
   }
 }

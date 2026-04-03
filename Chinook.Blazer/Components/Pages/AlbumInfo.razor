@@ -26,7 +26,7 @@
 		</button>
 
 		<label class="flex-grow-1 border border-dark rounded-3 text-black d-flex align-items-center justify-content-center shadow-sm" style="height: 45px; min-width: 200px;">
-			@if (model.AlbumInfo.Tracks == null)
+			@if (model.MusicModel.AlbumInfo.Tracks == null)
 			{
 				<span>No Data</span>
 			}
@@ -52,7 +52,7 @@
 	</thead>
 	<tbody class="">
 
-		@if (model.AlbumInfo.Tracks == null)
+		@if (model.MusicModel.AlbumInfo.Tracks == null)
 		{
 			<tr>
 				<td>No Data</td>
@@ -63,7 +63,7 @@
 		}
 		else
 		{
-			@foreach (var tracks in model.AlbumInfo.Tracks)
+			@foreach (var tracks in model.MusicModel.AlbumInfo.Tracks)
 			{
 				<tr>
 					<td>@ArtistName</td>
@@ -81,7 +81,7 @@
 	//Repository repository = new();
 
 	
-	string ArtistName => model.AlbumInfo.ArtistInfo.Name;
+	string ArtistName => model.MusicModel.ArtistInfo.Name;
 
 	protected override void OnInitialized()
 	{
