@@ -26,8 +26,8 @@ namespace Chinook.UI
 
       GridAlbum.ItemsSource = model.AlbumInfo.Tracks;
       DisplayMode = mode;
-      ArtistSwapper.Bind(model.GetArtistInfo(model));
-      AlbumSwapper.Bind(model.GetAlbumInfo(model)); 
+      ArtistSwapper.Bind(model.GetArtistInfo());
+      AlbumSwapper.Bind(model.GetAlbumInfo()); 
     }
 
     private void dgUsers_AddingNewItem(object sender, AddingNewItemEventArgs e)
