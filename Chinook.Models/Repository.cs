@@ -26,53 +26,6 @@ namespace Chinook.Models
       NextArtist, PrevArtist, NextAlbum, PrevAlbum
     }
 
-    AlbumInfo LoadAlbumInfoAtNextPagerPosition(int artistID, AlbumInfo albumInfo)
-    {
-      var newAlbumInfo = new AlbumInfo();
-      //albums
-      //var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistID).ToList();
-
-      //Pager newAlbumPager = modelToUse.AlbumInfo.AlbumInfo.Pager;
-      //if (resetAlbumPager)
-      //  newAlbumPager = new Pager();
-      //if (operation == Operation.NextAlbum || operation == Operation.PrevAlbum)
-      //  newAlbumPager = modelToUse.ModifyAlbumPager(operation);
-      //int maxAlbumIndex = albums.Count() - 1;
-      //if (maxAlbumIndex > -1)
-      //{
-      //  var album = albums[newAlbumPager.CurrentIndex];
-      //  var albumInfo = new AlbumInfo(album, newAlbumPager);
-      //  modelToUse.AlbumInfo.AlbumInfo = albumInfo;
-      //  modelToUse.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
-      //}
-
-      return newAlbumInfo;
-    }
-
-    public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
-    {
-      //Pager prevArtistPager = currentModel != null ? currentModel.a
-      //var result = new ArtistModel();
-      var modelToUse = currentModel ?? new ArtistModel();
-      //Pager newArtistPager = modelToUse.AlbumInfo.ArtistInfo.Pager;
-      //ArtistInfo artistInfo = null;
-      //if (operation == Operation.NextArtist || operation == Operation.PrevArtist)
-      //{
-      //  newArtistPager = modelToUse.ModifyArtistPager(operation);
-      //  var artist = ArtistContext.Artists.ElementAt(newArtistPager.CurrentIndex);
-      //  artistInfo = new ArtistInfo(artist, newArtistPager);
-      //  modelToUse.AlbumInfo.ArtistInfo = artistInfo;
-      //}
-      //else
-      //{
-      //  artistInfo = modelToUse.AlbumInfo.ArtistInfo;
-      //}
-
-      //var albumInfo = LoadAlbumInfoAtNextPagerPosition(artistInfo.Id, modelToUse.AlbumInfo.AlbumInfo);
-
-      return BuildModel(modelToUse.MusicModel.ArtistInfo.Pager.CloneTyped(), modelToUse.MusicModel.AlbumInfo.Pager.CloneTyped(), operation);
-    }
-
     BaseOperation GetBaseOperation(Operation operation)
     {
       if (operation == Operation.NextArtist || operation == Operation.NextAlbum)
@@ -81,24 +34,53 @@ namespace Chinook.Models
       return BaseOperation.Prev;
     }
 
-    public ArtistModel BuildModel(Pager artistPager, Pager albumPager, Operation? operation = null)
+    AlbumInfo LoadAlbumInfoAtNextPagerPosition(int artistID, Pager albumPager, Operation? operation = null)
+    {
+      var newAlbumInfo = new AlbumInfo();
+      
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistID).ToList();
+      albumPager.MaxIndex = albums.Count() - 1;
+      
+      var baseOper = GetBaseOperation(operation.Value);
+      var newPagerIndex = albumPager.ModifyCurrent(baseOper);
+      if (albumPager.MaxIndex >= albumPager.CurrentIndex)
+      {
+        var album = albums[albumPager.CurrentIndex];
+        newAlbumInfo = new AlbumInfo(album);
+        newAlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); 
+      }
+
+      return newAlbumInfo;
+    }
+
+    public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
+    {
+      var modelToUse = currentModel ?? new ArtistModel();
+      return BuildModel(modelToUse.MusicModel.ArtistPager.CloneTyped(), modelToUse.MusicModel.AlbumPager.CloneTyped(), modelToUse.MusicModel.ArtistInfo.CloneTyped(), operation);
+    }
+
+    public ArtistModel BuildModel(Pager artistPager, Pager albumPager, ArtistInfo artistInfo, Operation? operation = null)
     {
       var result = new ArtistModel();
-      int maxArtistIndex = ArtistContext.Artists.Count() - 1;
+      artistPager.MaxIndex = ArtistContext.Artists.Count() - 1;
       var baseOper = GetBaseOperation(operation.Value);
-      ArtistInfo artistInfo = null;
+      ArtistInfo newArtistInfo = artistInfo;
       if (operation == Operation.NextArtist || operation == Operation.PrevArtist)
       {
         var newArtistPagerIndex = artistPager.ModifyCurrent(baseOper);
         var artist = ArtistContext.Artists.ElementAt(newArtistPagerIndex);
-        artistInfo = new ArtistInfo(artist, artistPager);
-        result.MusicModel.ArtistInfo = artistInfo;
+        newArtistInfo = new ArtistInfo(artist, artistPager);
+        operation = Operation.NextAlbum;//force album load
+        albumPager = new Pager();
       }
-      else
-      {
-        //artistInfo = modelToUse.AlbumInfo.ArtistInfo;
-      }
-      return null;
+      
+      result.MusicModel.ArtistInfo = newArtistInfo;
+      result.MusicModel.ArtistPager = artistPager;
+
+      var albumInfo = LoadAlbumInfoAtNextPagerPosition(newArtistInfo.Id, albumPager, operation);
+      result.MusicModel.AlbumInfo = albumInfo;
+      result.MusicModel.AlbumPager = albumPager;
+      return result;
     }
   }
 }
