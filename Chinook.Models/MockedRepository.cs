@@ -14,6 +14,15 @@ namespace Chinook.Models
   {
     public List<ArtistModel> artist = new();
     public ArtistContext ArtistContext { get; private set; } = new ArtistContext();
+
+
+    BaseOperation GetBaseOperation(Operation operation)
+    {
+      if (operation == Operation.NextArtist || operation == Operation.NextAlbum)
+        return BaseOperation.Next;
+
+      return BaseOperation.Prev;
+    }
     public MockedRepository()
     {
       //artist.Add(new ArtistModel
@@ -34,50 +43,55 @@ namespace Chinook.Models
 
       //});
     }
-    public ArtistModel BuildModel(ArtistModel? currentModel = null, Repository.Operation? operation = null)
+
+
+    AlbumInfo LoadAlbumInfoAtNextPagerPosition(int artistID, Pager albumPager, Operation? operation = null)
     {
-      var artistModel = new ArtistModel();
+      var newAlbumInfo = new AlbumInfo();
+
+      var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistID).ToList();
+      albumPager.MaxIndex = albums.Count() - 1;
+
+      var baseOper = GetBaseOperation(operation.Value);
+      var newPagerIndex = albumPager.ModifyCurrent(baseOper);
+      if (albumPager.MaxIndex >= albumPager.CurrentIndex)
+      {
+        var album = albums[albumPager.CurrentIndex];
+        newAlbumInfo = new AlbumInfo(album);
+        newAlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList();
+      }
+
+      return newAlbumInfo;
+    }
+
+    public ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null)
+    {
+      var modelToUse = currentModel ?? new ArtistModel();
+      return BuildModel(modelToUse.MusicModel.ArtistPager.CloneTyped(), modelToUse.MusicModel.AlbumPager.CloneTyped(), modelToUse.MusicModel.ArtistInfo.CloneTyped(), operation);
+    }
+
+
+    public ArtistModel BuildModel(Pager artistPager, Pager albumPager, ArtistInfo artistInfo, Operation? operation = null)
+    {
       var result = new ArtistModel();
-      //var modelToUse = currentModel ?? result;
-      //int artistIndex = modelToUse.CurrentArtistIndex;
-      //switch (operation)
-      //{
-      //  case Operation.NextArtist:
-      //    artistIndex = modelToUse.ModifyArtistPager(operation);
-      //    break;
-      //  case Operation.PrevArtist:
-      //    artistIndex = modelToUse.ModifyArtistPager(operation);
-      //    break;
-      //  default:
-      //    break;
-      //}
-      //var artist = ArtistContext.Artists.ElementAt(artistIndex);
-      //int maxArtistIndex = ArtistContext.Artists.Count() - 1;
-      //var artistInfo = new ArtistInfo(artist, maxArtistIndex, artistIndex);
-      //result.AlbumInfo.ArtistInfo = artistInfo;
-      //var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistIndex + 1).ToList();
-      //int albumIndex = 0;
-      //switch (operation)
-      //{
-      //  case Operation.NextAlbum:
-      //    albumIndex = modelToUse.ModifyAlbumIndex(operation);
-      //    break;
-      //  case Operation.PrevAlbum:
-      //    albumIndex = modelToUse.ModifyAlbumIndex(operation);
-      //    break;
-      //  default:
-      //    break;
-      //}
-      //int MaxAlbumIndex = albums.Count() - 1;
-      //if (MaxAlbumIndex > -1)
-      //{
-      //  var album = albums[albumIndex];
-      //  result.AlbumInfo.AlbumInfo.Id = album.AlbumId;
-      //  result.AlbumInfo.AlbumInfo.Name = album.Title;
-      //  var albumInfo = new AlbumInfo(album, MaxAlbumIndex, albumIndex);
-      //  result.AlbumInfo.AlbumInfo = albumInfo;
-      //  result.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
-      //}
+      artistPager.MaxIndex = ArtistContext.Artists.Count() - 1;
+      var baseOper = GetBaseOperation(operation.Value);
+      ArtistInfo newArtistInfo = artistInfo;
+      if (operation == Operation.NextArtist || operation == Operation.PrevArtist)
+      {
+        var newArtistPagerIndex = artistPager.ModifyCurrent(baseOper);
+        var artist = ArtistContext.Artists.ElementAt(newArtistPagerIndex);
+        newArtistInfo = new ArtistInfo(artist, artistPager);
+        operation = Operation.NextAlbum;//force album load
+        albumPager = new Pager();
+      }
+
+      result.MusicModel.ArtistInfo = newArtistInfo;
+      result.MusicModel.ArtistPager = artistPager;
+
+      var albumInfo = LoadAlbumInfoAtNextPagerPosition(newArtistInfo.Id, albumPager, operation);
+      result.MusicModel.AlbumInfo = albumInfo;
+      result.MusicModel.AlbumPager = albumPager;
       return result;
     }
   }
