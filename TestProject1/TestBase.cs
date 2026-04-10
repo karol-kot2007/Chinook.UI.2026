@@ -23,13 +23,13 @@ namespace Chinook.Tests
       Assert.IsNotNull(albumInfo);
       Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Name);
       Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Id);
-      Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Pager.CurrentIndex);
-      Assert.IsNotNull(albumInfo.MusicModel.ArtistInfo.Pager.MaxIndex);
+      Assert.IsNotNull(albumInfo.CurrentArtistIndex);
+      Assert.IsNotNull(albumInfo.MaxArtistIndex);
 
       Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Name);
       Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Id);
-      Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Pager.CurrentIndex);
-      Assert.IsNotNull(albumInfo.MusicModel.AlbumInfo.Pager.MaxIndex);
+      Assert.IsNotNull(albumInfo.CurrentAlbumIndex);
+      Assert.IsNotNull(albumInfo.MaxAlbumIndex);
       return albumInfo;
     }
     protected void DoIndexOperation(IRepository repo, Repository.Operation op)
