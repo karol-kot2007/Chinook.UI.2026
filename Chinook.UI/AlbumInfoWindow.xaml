@@ -5,23 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chinook.UI"
         mc:Ignorable="d"
-        Title="AlbumInfoWindow"  Width="800">
+        Title="AlbumInfoWindow" Width="800" Height="600">
   <Grid>
-    <StackPanel >
-      <local:AlbumInfoControl HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" x:Name="AlbumInfoControl" Loaded="AlbumInfoControl_Loaded"  />
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="152">
-        <StackPanel.RenderTransform>
-          <TransformGroup>
-            <ScaleTransform/>
-            <SkewTransform/>
-            <RotateTransform Angle="-0.528"/>
-            <TranslateTransform/>
-          </TransformGroup>
-        </StackPanel.RenderTransform>
-        <Button Content="close" x:Name="CloseBtn" Click="CloseBtn_Click" Width="38"/>
-        <Button Content="ok" x:Name="OkBtn" Click="OkBtn_Click" Width="38"/>
-        <Button Content="cancel" x:Name="CancelBtn" Click="CancelBtn_Click"/>
-      </StackPanel>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <local:AlbumInfoControl Grid.Row="0" 
+                                x:Name="AlbumInfoControl" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch" 
+                                Loaded="AlbumInfoControl_Loaded"  />
+
+    <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="10">
+      <Button Content="close" x:Name="CloseBtn" Click="CloseBtn_Click" Width="50" Margin="2"/>
+      <Button Content="ok" x:Name="OkBtn" Click="OkBtn_Click" Width="50" Margin="2"/>
+      <Button Content="cancel" x:Name="CancelBtn" Click="CancelBtn_Click" Width="60" Margin="2"/>
     </StackPanel>
   </Grid>
 </Window>

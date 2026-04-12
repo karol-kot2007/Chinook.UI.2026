@@ -5,44 +5,45 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                xmlns:local="clr-namespace:Chinook.UI"
                mc:Ignorable="d" 
-               d:DesignHeight="450" d:DesignWidth="600">
-  <StackPanel Height="Auto" Width="Auto" Orientation="Vertical"  Background="Red" Margin="0,0,-224,0">
+               d:DesignHeight="450" Width="AUTO">
+  <StackPanel Height="Auto" Width="AUTO" Orientation="Vertical"  Background="#FF434344">
     <StackPanel Margin="0 5 0 0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
       <local:AlbumSwapper x:Name="ArtistSwapper" Height="25"/>
       <local:AlbumSwapper x:Name="AlbumSwapper" Margin="0 5 0 0" Height="25" Loaded="AlbumSwapper_Loaded"/>
 
       <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-        <Label Content="Album:" Height="30" Width="50"/>
-        <TextBox Text=""    x:Name="AlbumName" Width="257" TextChanged="AlbumName_TextChanged" />
+        <Label Content="Album:"  Height="30" Width="50" Foreground="White"/>
+        <TextBox Text=""  TextAlignment="Center"  x:Name="AlbumName" Width="257" TextChanged="AlbumName_TextChanged" Background="#FF434344" Foreground="White" />
       </StackPanel>
 
       <StackPanel Orientation="Horizontal" Margin="0 5 0 10">
-        <Label Content="Artist:" Height="30" VerticalAlignment="Center" Width="50" />
-        <TextBox Text=" " VerticalAlignment="Center" x:Name="ArtistName" Height="28" Width="110" />
+        <Label Content="Artist:" Height="30" VerticalAlignment="Center" Width="50" Foreground="White" />
+        <TextBox Text=" " TextAlignment="Center"  VerticalAlignment="Center" x:Name="ArtistName" Height="28" Width="110" Background="#FF434344" Foreground="White" />
       </StackPanel>
 
 
-    <DataGrid x:Name="GridAlbum" AutoGenerateColumns="False" >
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True"  />
-        <DataGridTextColumn Header="TrackName: " Binding="{Binding Name}"  x:Name="TrackNameButton"  IsReadOnly="True" />
-        <DataGridTextColumn Header="Price: " Binding="{Binding UnitPrice}"  x:Name="PriceButton"  IsReadOnly="True" />
-        <DataGridTextColumn Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />
-        <DataGridTextColumn Header="TrackId: " Binding="{Binding trackId}"  x:Name="trackId"  IsReadOnly="True" />
+      <DataGrid x:Name="GridAlbum"  Background="#FF2D2D30" 
+        RowBackground="#FF434344" Foreground="Black" AutoGenerateColumns="False" >
+        <DataGrid.Columns >
+          <DataGridTextColumn  Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True" Foreground="#FFFDFDFD"  />
+          <DataGridTextColumn Foreground="#FFFDFDFD" Header="TrackName: " Binding="{Binding Name}"  x:Name="TrackNameButton"  IsReadOnly="True" />
+          <DataGridTextColumn Foreground="#FFFDFDFD" Header="Price: " Binding="{Binding UnitPrice}"  x:Name="PriceButton"  IsReadOnly="True" />
+          <DataGridTextColumn Foreground="#FFFDFDFD" Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />
+          <DataGridTextColumn Foreground="#FFFDFDFD" Header="TrackId: " Binding="{Binding trackId}"  x:Name="trackId"  IsReadOnly="True" />
 
 
-        <DataGridTemplateColumn>
-          <DataGridTemplateColumn.CellTemplate>
-            <DataTemplate>
-              <Button x:Name="PlayBtn" Click="PlayBtn_Click">Play</Button>
-            </DataTemplate>
-          </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>
-        <DataGridTemplateColumn>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Button x:Name="PlayBtn" Click="PlayBtn_Click">Play</Button>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTemplateColumn>
 
-        </DataGridTemplateColumn>
-      </DataGrid.Columns>
-    </DataGrid>
+          </DataGridTemplateColumn>
+        </DataGrid.Columns>
+      </DataGrid>
     </StackPanel>
   </StackPanel>
 </UserControl>
