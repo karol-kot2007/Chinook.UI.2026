@@ -49,7 +49,7 @@ namespace Chinook.Models
         artistModel.AlbumInfo.Tracks = ArtistContext.Tracks.Where(i => i.AlbumId == album.AlbumId).ToList(); ;
       }
       return artistModel;
-    }
+    }//////////////
 
   }
 }
