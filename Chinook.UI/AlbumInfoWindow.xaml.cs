@@ -15,16 +15,16 @@ namespace Chinook.UI
 {//prev i warunkibrzegowe
   public partial class AlbumInfoWindow : Window
   {
-    // public ArtistModel ArtistModel => DataContext as ArtistModel;
-    public ArtistModel ArtistModel { get; private set; }
-    public AlbumInfoModel AlbumInfoModel { get; private set; } = new AlbumInfoModel();
+    public ArtistModel ArtistModel => DataContext as ArtistModel;
+    //public ArtistModel ArtistModel { get; private set; }
+    public MusicModel AlbumInfoModel { get; private set; } = new MusicModel();
     IRepository Repository { get; set; } = null!;
     public Mode DisplayMode { get; set; }
 
     public AlbumInfoWindow()
     {
       InitializeComponent();
-      this.ArtistModel = new();
+      
       AlbumInfoControl.AlbumSwapper.OnNext += AlbumInfoControl_OnNext;
       AlbumInfoControl.AlbumSwapper.OnPrev += AlbumInfoControl_onPrev;
       AlbumInfoControl.ArtistSwapper.OnNext += ArtistInfoControl_OnNext;
@@ -73,20 +73,20 @@ namespace Chinook.UI
       {
         CloseBtn.Visibility = Visibility.Collapsed;
       }
-      AlbumInfoModel = model.AlbumInfo;
+      AlbumInfoModel = model.MusicModel;
 
-      if (model.AlbumInfo.Tracks == null)
+      if (model.MusicModel.AlbumInfo.Tracks == null)
       {
         AlbumInfoControl.AlbumName.Text = "no match";
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
       }
       else
       {
-        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
+        AlbumInfoControl.AlbumName.Text = model.MusicModel.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
 
       }
-      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
+      AlbumInfoControl.ArtistName.Text = model.MusicModel.ArtistInfo.Name;
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -131,7 +131,7 @@ namespace Chinook.UI
     {
       DisplayMode = mode;
       Repository = repository;
-      var model = Repository.BuildModel(null);
+      var model = Repository.BuildModel(null, Models.Repository.Operation.NextArtist);
       SetModel(model);
 
       ShowDialog();

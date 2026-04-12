@@ -3,106 +3,135 @@ using static Chinook.Models.Repository;
 
 namespace Chinook.Models
 {
-  public class Info
+  public enum BaseOperation
   {
-    public string? Name { get; set; }
-    public int Id { get; set; }
-    public int Current { get; set; }
-    public int Max { get; set; }
-    public enum BaseOperation
+    Next, Prev
+  }
+  public class Pager : ICloneable
+  {
+    public int CurrentIndex { get; set; } = -1;
+    public int MaxIndex { get; set; }
+    public object Clone()
     {
-      Next, Prev
+      return MemberwiseClone();
+    }
+    public Pager CloneTyped()
+    {
+      return (Pager)Clone();
     }
 
-    public int ModifyCurrent(BaseOperation operation,int max)
+    public int ModifyCurrent(BaseOperation operation)
     {
-      if (max <= -1) return 0;
+      int max = MaxIndex;
+      if (max <= -1)
+        return -1;
+
       switch (operation)
       {
         case BaseOperation.Next:
-          Current++;
-          if(Current > max)
-            Current = 0;
-        return Current;
+          CurrentIndex++;
+          if (CurrentIndex > max)
+            CurrentIndex = 0;
+          return CurrentIndex;
 
         case BaseOperation.Prev:
-          Current--;
-          if(Current < 0) 
-            Current = max;
-          return Current; 
+          CurrentIndex--;
+          if (CurrentIndex < 0)
+            CurrentIndex = max;
+          return CurrentIndex;
         default:
           return 0;
       }
 
     }
   }
+
+  public class Info : ICloneable
+  {
+    public string? Name { get; set; }
+    public int Id { get; set; }
+
+    public object Clone()
+    {
+      return MemberwiseClone();
+    }
+
+    public virtual Info CloneTyped()
+    {
+      return (Info)Clone();
+    }
+
+    public override string ToString()
+    {
+      return base.ToString() + Name;
+    }
+    
+  }
   public class ArtistInfo : Info
   {
+    public ArtistInfo() { }
+
+    public ArtistInfo(DAL.Models.Artist artist, Pager pager)
+    {
+      Name = artist.Name;
+      Id = artist.ArtistId;
+    }
+
+    public virtual ArtistInfo CloneTyped()
+    {
+      return (ArtistInfo)Clone();
+    }
 
   }
   public class AlbumInfo : Info
   {
+    public List<Track> Tracks { get; set; }
 
+    public AlbumInfo() { }
+
+    public AlbumInfo(DAL.Models.Album album)
+    {
+      Name = album.Title;
+      Id = album.AlbumId;
+    }
+
+    public override string ToString()
+    {
+      return base.ToString() + " " + Name;
+    }
   }
   public class TrackInfo : Info
   {
   }
-  public class AlbumInfoModel
+  public class MusicModel
   {
     public AlbumInfo AlbumInfo { get; set; } = new AlbumInfo();
     public ArtistInfo ArtistInfo { get; set; } = new ArtistInfo();
-    public List<Track> Tracks { get; set; }
 
+    public Pager ArtistPager { get; set; } = new();
+    public Pager AlbumPager { get; set; } = new();
   }
   public class ArtistModel
   {
-    public int CurrentAlbumIndex { get; set; }
-    public int CurrentArtistIndex { get; set; }
-    public int MaxAlbumIndex { get; set; }
-    public int MaxArtistIndex { get; set; }
-    public AlbumInfoModel AlbumInfo { get; set; } = new();
-    public string GetArtistInfo(ArtistModel model)
+    public int CurrentAlbumIndex => MusicModel.AlbumPager.CurrentIndex;
+    public int MaxAlbumIndex => MusicModel.AlbumPager.MaxIndex;
+
+    public int CurrentArtistIndex => MusicModel.ArtistPager.CurrentIndex;
+    public int MaxArtistIndex => MusicModel.ArtistPager.MaxIndex;
+    public MusicModel MusicModel { get; set; } = new();
+    public string GetArtistInfo()
     {
-      return "artist:" + model.AlbumInfo.ArtistInfo.Name + " " + (model.CurrentArtistIndex + 1).ToString() + "/" + (model.MaxArtistIndex+1);
+      return "artist:" + MusicModel.ArtistInfo.Name + " " + (CurrentArtistIndex + 1).ToString() + "/" + (MaxArtistIndex + 1);
     }
 
-    public string GetAlbumInfo(ArtistModel model)
+    public string GetAlbumInfo()
     {
-      return "album:" + model.AlbumInfo.AlbumInfo.Name + " " + (model.CurrentAlbumIndex + 1).ToString() + "/" + (model.MaxAlbumIndex+1);
-    }
-    public int ModifyArtistIndex(int maxArtistIndex, Operation? operation = null)
-    {
-      switch (operation)
-      {
-        case Operation.NextArtist:
-          AlbumInfo.AlbumInfo.Current = 0;
-          AlbumInfo.ArtistInfo.ModifyCurrent(Info.BaseOperation.Next, maxArtistIndex);
-          break;
-
-        case Operation.PrevArtist:
-          AlbumInfo.AlbumInfo.Current = 0;
-          AlbumInfo.ArtistInfo.ModifyCurrent(Info.BaseOperation.Prev, maxArtistIndex);
-          break;
-      }
-      return AlbumInfo.ArtistInfo.Current;
+      return "album:" + MusicModel.AlbumInfo.Name + " " + (CurrentAlbumIndex + 1).ToString() + "/" + (MaxAlbumIndex + 1);
     }
 
-    public int ModifyAlbumIndex(int maxAlbumIndex, Operation? operation = null)
+    public override string ToString()
     {
-      switch (operation)
-      {
-        case Operation.NextAlbum:
-          AlbumInfo.AlbumInfo.ModifyCurrent(Info.BaseOperation.Next, maxAlbumIndex);
-          break;
-
-        case Operation.PrevAlbum:
-          AlbumInfo.AlbumInfo.ModifyCurrent(Info.BaseOperation.Prev, maxAlbumIndex);
-          break;
-      }
-
-      return AlbumInfo.AlbumInfo.Current;
+      return base.ToString() + "" + MusicModel.ArtistInfo;
     }
-
-
   }
 }

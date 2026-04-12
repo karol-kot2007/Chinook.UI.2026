@@ -24,10 +24,10 @@ namespace Chinook.UI
     internal void Bind(ArtistModel model, Mode mode)
     {
 
-      GridAlbum.ItemsSource = model.AlbumInfo.Tracks;
+      GridAlbum.ItemsSource = model.MusicModel.AlbumInfo.Tracks;
       DisplayMode = mode;
-      ArtistSwapper.Bind(model.GetArtistInfo(model));
-      AlbumSwapper.Bind(model.GetAlbumInfo(model)); 
+      ArtistSwapper.Bind(model.GetArtistInfo());
+      AlbumSwapper.Bind(model.GetAlbumInfo()); 
     }
 
     private void dgUsers_AddingNewItem(object sender, AddingNewItemEventArgs e)

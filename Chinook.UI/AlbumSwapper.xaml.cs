@@ -6,7 +6,7 @@ namespace Chinook.UI
   {
     public event EventHandler OnPrev;
     public event EventHandler OnNext;
-    public AlbumInfoModel ArtistName { get; set; }
+    public MusicModel ArtistName { get; set; }
     public AlbumSwapper()
     {
       InitializeComponent();
