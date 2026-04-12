@@ -11,7 +11,9 @@ using static Chinook.Models.Repository;
 
 namespace Chinook.Models
 {
-
+  /// <summary>
+  /// Interface of repo
+  /// </summary>
   public interface IRepository
   {
     ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null);
