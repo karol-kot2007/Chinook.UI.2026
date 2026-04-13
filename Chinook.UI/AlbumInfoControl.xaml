@@ -28,7 +28,7 @@
           <DataGridTextColumn  Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True" Foreground="#FFFDFDFD"  />
           <DataGridTextColumn Foreground="#FFFDFDFD" Header="TrackName: " Binding="{Binding Name}"  x:Name="TrackNameButton"  IsReadOnly="True" />
           <DataGridTextColumn Foreground="#FFFDFDFD" Header="Price: " Binding="{Binding UnitPrice}"  x:Name="PriceButton"  IsReadOnly="True" />
-          <DataGridTextColumn Foreground="#FFFDFDFD" Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />
+          <!--<DataGridTextColumn Foreground="#FFFDFDFD" Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />-->
           <DataGridTextColumn Foreground="#FFFDFDFD" Header="TrackId: " Binding="{Binding trackId}"  x:Name="trackId"  IsReadOnly="True" />
 
 

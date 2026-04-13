@@ -43,7 +43,7 @@ namespace Chinook.Models
       
       var baseOper = GetBaseOperation(operation.Value);
       var newPagerIndex = albumPager.ModifyCurrent(baseOper);
-      if (albumPager.MaxIndex >= albumPager.CurrentIndex)
+      if (albumPager.MaxIndex > -1)
       {
         var album = albums[albumPager.CurrentIndex];
         newAlbumInfo = new AlbumInfo(album);

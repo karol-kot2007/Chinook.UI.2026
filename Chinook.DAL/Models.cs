@@ -24,7 +24,9 @@ namespace Chinook.DAL.Models
     public int Bytes { get; set; }
     public string? LocalPath { get; set; }
     public float UnitPrice { get; set; }
-
+  //  public int artistId { get; set; }
+    private Artist artist { get;  } 
+    public int trackId { get; set; }
   }
   public class Artist
   {
