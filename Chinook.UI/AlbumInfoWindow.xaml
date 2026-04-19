@@ -22,9 +22,9 @@
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right" 
                     Margin="10">
-      <Button Content="close" x:Name="CloseBtn" Click="CloseBtn_Click" Width="50" Margin="2"/>
-      <Button Content="ok" x:Name="OkBtn" Click="OkBtn_Click" Width="50" Margin="2"/>
-      <Button Content="cancel" x:Name="CancelBtn" Click="CancelBtn_Click" Width="60" Margin="2"/>
+      <Button Content="close" x:Name="CloseBtn" Click="CloseBtn_Click" Width="50" Margin="2" Style="{StaticResource default_button}"/>
+      <Button Content="ok" x:Name="OkBtn" Click="OkBtn_Click" Width="50" Margin="2" Style="{StaticResource default_button}"/>
+      <Button Content="cancel" x:Name="CancelBtn" Click="CancelBtn_Click" Width="60" Margin="2" Style="{StaticResource default_button}"/>
     </StackPanel>
   </Grid>
 </Window>
