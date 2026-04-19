@@ -6,11 +6,15 @@
              xmlns:local="clr-namespace:Chinook.UI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-  <StackPanel >
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-      <Button Content="Prev" Margin="0,0,0,0" Click="Button_Prev" Width="86" Height="25" RenderTransformOrigin="01.08,0.6" Foreground="White" Background="#FF777B7D" />
-      <TextBox  x:Name="Content" TextAlignment="Center" Margin="10,0,0,0" Width="583" Height="25" IsReadOnly="True" RenderTransformOrigin="-0.19,0.373" Foreground="White" Background="#FF777B7D" />
-      <Button Content="Next" Click="Button_Next" RenderTransformOrigin="-0.3,0.888" Width="86" Height="25" Margin="10,0,0,0" Background="#FF777B7D" Foreground="White"/>
-    </StackPanel>
-  </StackPanel>
+  <Grid >
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Button Content="Prev" Grid.Column="0" Margin="0,0,10,0" Click="Button_Prev" MinWidth="46" Height="25" Style="{StaticResource default_button}" />
+    <TextBox  x:Name="Content" Grid.Column="1" TextAlignment="Center" Margin="0,0,0,0"  Height="25" IsReadOnly="True"  Foreground="White" Background="#FF777B7D" />
+    <Button Content="Next" Grid.Column="2" Click="Button_Next" MinWidth="46"  Height="25" Margin="10,0,0,0" Style="{StaticResource default_button}"/>
+  
+  </Grid>
 </UserControl> 
