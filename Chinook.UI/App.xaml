@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Chinook.UI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+    <Style x:Key="default_button" TargetType="Button">
+      <Setter Property="Background" Value="#FF777B7D"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+  </Application.Resources>
 </Application>
