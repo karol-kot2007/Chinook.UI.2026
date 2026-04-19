@@ -15,19 +15,20 @@
     </Grid.RowDefinitions>
 
     <local:AlbumSwapper x:Name="ArtistSwapper"  Grid.Row="0"  Height="30" 
-     Margin="10,5,10,0"/>
+     Margin="10,15,10,0"/>
 
     <local:AlbumSwapper x:Name="AlbumSwapper"  Grid.Row="1" Height="30" 
      Margin="10,5,10,0" Loaded="AlbumSwapper_Loaded"/>
 
-    <DataGrid Margin="10 30 10 0" x:Name="GridAlbum" MaxHeight="600" Background="#FF2D2D30" Grid.Row="2"
-  RowBackground="#FF434344" Foreground="Black" AutoGenerateColumns="False" >
-      <DataGrid.Columns >
-        <DataGridTextColumn  Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True" Foreground="#FFFDFDFD"  />
-        <DataGridTextColumn Foreground="#FFFDFDFD" Header="TrackName: " Binding="{Binding Name}"  x:Name="TrackNameButton"  IsReadOnly="True" />
-        <DataGridTextColumn Foreground="#FFFDFDFD" Header="Price: " Binding="{Binding UnitPrice}"  x:Name="PriceButton"  IsReadOnly="True" />
-        <DataGridTextColumn Foreground="#FFFDFDFD" Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />
-        <DataGridTextColumn Foreground="#FFFDFDFD" Header="TrackId: " Binding="{Binding trackId}"  x:Name="trackId"  IsReadOnly="True" />
+    <DataGrid VerticalAlignment="top" 
+          HorizontalAlignment="Stretch" Margin="10 30 10 0" x:Name="GridAlbum"  Background="#FF434344" Grid.Row="2"
+  RowBackground="#FF434344" Foreground="#FF434344" AutoGenerateColumns="False" >
+      <DataGrid.Columns  >
+        <DataGridTextColumn  Width="*"  Header="Composer:" Binding="{Binding Composer}"  x:Name="ComposerButton" IsReadOnly="True" Foreground="#FFFDFDFD"  />
+        <DataGridTextColumn Width="*" Foreground="#FFFDFDFD" Header="TrackName: " Binding="{Binding Name}"  IsReadOnly="True"  x:Name="TrackNameButton"  />
+        <DataGridTextColumn Width="*" Foreground="#FFFDFDFD" Header="Price: " Binding="{Binding UnitPrice}"  x:Name="PriceButton"  IsReadOnly="True" />
+        <DataGridTextColumn Width="*" Foreground="#FFFDFDFD" Header="artistId: " Binding="{Binding artistId}"  x:Name="artistIdButton"  IsReadOnly="True" />
+        <DataGridTextColumn Width="*" Foreground="#FFFDFDFD" Header="TrackId: " Binding="{Binding trackId}"  x:Name="trackId"  IsReadOnly="True" />
 
 
         <DataGridTemplateColumn>
