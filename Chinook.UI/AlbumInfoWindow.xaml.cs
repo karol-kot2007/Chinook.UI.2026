@@ -77,16 +77,16 @@ namespace Chinook.UI
 
       if (model.AlbumInfo.Tracks == null)
       {
-        AlbumInfoControl.AlbumName.Text = "no match";
+       // AlbumInfoControl.AlbumName.Text = "no match";
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
       }
       else
       {
-        AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
+      //  AlbumInfoControl.AlbumName.Text = model.AlbumInfo.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
 
       }
-      AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
+     // AlbumInfoControl.ArtistName.Text = model.AlbumInfo.ArtistInfo.Name;
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -112,8 +112,8 @@ namespace Chinook.UI
       var albumContext = new AlbumInfoWindow();
       var artist = artistContext.Artists.Where(i => i.ArtistId == AlbumInfoModel.ArtistInfo.Id).Single();
       var album = artistContext.Albums.Where(a => a.AlbumId == AlbumInfoModel.AlbumInfo.Id).Single();
-      artist.Name = AlbumInfoControl.ArtistName.Text;
-      album.Title = AlbumInfoControl.AlbumName.Text;
+    //  artist.Name = AlbumInfoControl.ArtistName.Text;
+   //   album.Title = AlbumInfoControl.AlbumName.Text;
       artistContext.SaveChanges();
       Close();
     }
