@@ -29,7 +29,6 @@ namespace Chinook.DAL.Models
   {
     public string? Name { get; set; }
     public int ArtistId { get; set; }
-  //  public int albumId { get; set; }
   }
   public class Album
   {

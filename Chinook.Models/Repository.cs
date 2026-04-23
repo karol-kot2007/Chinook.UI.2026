@@ -11,9 +11,6 @@ using static Chinook.Models.Repository;
 
 namespace Chinook.Models
 {
-  /// <summary>
-  /// Interface of repo
-  /// </summary>
   public interface IRepository
   {
     ArtistModel BuildModel(ArtistModel? currentModel = null, Operation? operation = null);
@@ -70,7 +67,7 @@ namespace Chinook.Models
         var newArtistPagerIndex = artistPager.ModifyCurrent(baseOper);
         var artist = ArtistContext.Artists.ElementAt(newArtistPagerIndex);
         newArtistInfo = new ArtistInfo(artist, artistPager);
-        operation = Operation.NextAlbum;//force album load
+        operation = Operation.NextAlbum;
         albumPager = new Pager();
       }
       

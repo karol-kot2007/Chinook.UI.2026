@@ -25,23 +25,7 @@ namespace Chinook.Models
     }
     public MockedRepository()
     {
-      //artist.Add(new ArtistModel
-      //{
-      //  CurrentAlbumIndex = 1,
-      //  CurrentArtistIndex = 0,
-      //  MaxAlbumIndex = 3,
-
-
-      //});
-
-      //artist.Add(new ArtistModel
-      //{
-      //  CurrentAlbumIndex = 2,
-      //  CurrentArtistIndex = 2,
-      //  MaxAlbumIndex = 2,
-
-
-      //});
+      
     }
 
 
@@ -82,7 +66,7 @@ namespace Chinook.Models
         var newArtistPagerIndex = artistPager.ModifyCurrent(baseOper);
         var artist = ArtistContext.Artists.ElementAt(newArtistPagerIndex);
         newArtistInfo = new ArtistInfo(artist, artistPager);
-        operation = Operation.NextAlbum;//force album load
+        operation = Operation.NextAlbum;
         albumPager = new Pager();
       }
 

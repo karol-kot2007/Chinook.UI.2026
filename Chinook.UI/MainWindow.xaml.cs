@@ -33,9 +33,6 @@ namespace Chinook.UI
     {
       var wnd = new AlbumInfoWindow();
       wnd.Show(Mode.View, Repository);
-      //dziala
-      //var  a = new MockedRepository();
-      //wnd.Show(Mode.View, a);
     }
 
     private void Button_Edit_Click(object sender, RoutedEventArgs e)

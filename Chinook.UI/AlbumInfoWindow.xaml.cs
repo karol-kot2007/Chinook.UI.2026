@@ -12,11 +12,10 @@ using System.Windows.Media.Media3D;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Chinook.UI
-{//prev i warunkibrzegowe
+{
   public partial class AlbumInfoWindow : Window
   {
     public ArtistModel ArtistModel => DataContext as ArtistModel;
-    //public ArtistModel ArtistModel { get; private set; }
     public MusicModel AlbumInfoModel { get; private set; } = new MusicModel();
     IRepository Repository { get; set; } = null!;
     public Mode DisplayMode { get; set; }
@@ -77,16 +76,12 @@ namespace Chinook.UI
 
       if (model.MusicModel.AlbumInfo.Tracks == null)
       {
-      //  AlbumInfoControl.AlbumName.Text = "no match";
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Hidden;
       }
       else
       {
-     //   AlbumInfoControl.AlbumName.Text = model.MusicModel.AlbumInfo.Name;
         AlbumInfoControl.GridAlbum.Visibility = Visibility.Visible;
-
       }
-    //  AlbumInfoControl.ArtistName.Text = model.MusicModel.ArtistInfo.Name;
     }
     protected void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -112,8 +107,6 @@ namespace Chinook.UI
       var albumContext = new AlbumInfoWindow();
       var artist = artistContext.Artists.Where(i => i.ArtistId == AlbumInfoModel.ArtistInfo.Id).Single();
       var album = artistContext.Albums.Where(a => a.AlbumId == AlbumInfoModel.AlbumInfo.Id).Single();
-    //  artist.Name = AlbumInfoControl.ArtistName.Text;
-    //  album.Title = AlbumInfoControl.AlbumName.Text;
       artistContext.SaveChanges();
       Close();
     }
