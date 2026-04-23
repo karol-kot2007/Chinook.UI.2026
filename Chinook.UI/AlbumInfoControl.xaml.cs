@@ -41,25 +41,19 @@ namespace Chinook.UI
     }
     private void PlayBtn_Click(object sender, RoutedEventArgs e)
     {
-
       Track LocalPath = new Track();
       var obj = ((FrameworkElement)sender).DataContext as Track;
-      int k = 0;
-
-
       var btn = sender as Button;
-      if (btn.Content == "Play")
+      if (btn.Content.ToString() == "Play")
       {
+        PlaySound();
         btn.Content = "Stop";
-        Player.Stop();
       }
       else
       {
+        Player.Stop();
         btn.Content = "Play";
-        PlaySound();
       }
-      k++;
-
     }
 
 
