@@ -14,8 +14,9 @@ namespace Chinook.UI
     public ArtistContext ArtistId { get; set; }
     public Track LocalPath { get; set; }
     public Button CancelBtn { get; set; }
-    public static object Album { get; private set; }
-    private Button LastPlayedButton = new();
+
+    private Button LastPlayedButton = null;
+
     public AlbumInfoControl()
     {
       InitializeComponent();
@@ -43,6 +44,8 @@ namespace Chinook.UI
       Track LocalPath = new Track();
       var obj = ((FrameworkElement)sender).DataContext as Track;
       var btn = sender as Button;
+      if(LastPlayedButton == null)
+         LastPlayedButton = new();
       if (btn.Content.ToString() == "Play")
       {
         PlaySound();
