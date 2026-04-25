@@ -12,7 +12,7 @@
 		</button>
 
 		<label class="flex-grow-1 border border-dark rounded-3 text-black d-flex align-items-center justify-content-center shadow-sm" style="height: 45px; min-width: 200px;">
-			<span class="fw-bold">@(artistModel.GetArtistInfo())</span>
+			<span class="fw-bold">@(model.GetArtistInfo())</span>
 		</label>
 
 		<button type="button" class="btn btn-outline-dark shadow-lg px-4" @onclick="()=>BuildModel(op:Repository.Operation.NextArtist)">
@@ -32,7 +32,7 @@
 			}
 			else
 			{
-				<span class="fw-bold">@(artistModel.GetAlbumInfo())</span>
+				<span class="fw-bold">@(model.GetAlbumInfo())</span>
 			}
 		</label>
 
@@ -77,21 +77,17 @@
 </table>
 @code {
 	private ArtistModel model = new();
-	ArtistModel artistModel = new();
-	//Repository repository = new();
-
-	
 	string ArtistName => model.MusicModel.ArtistInfo.Name;
 
 	protected override void OnInitialized()
 	{
-		model = repository.BuildModel(artistModel);
-
+		model = repository.BuildModel(null,Repository.Operation.NextArtist);
 	}
 
 	ArtistModel BuildModel(Repository.Operation op)
 	{
-		model = repository.BuildModel(artistModel, operation: op);
-		return model;
+		var result = repository.BuildModel(model, operation: op);
+		model = result;
+		return result;
 	}
 }
