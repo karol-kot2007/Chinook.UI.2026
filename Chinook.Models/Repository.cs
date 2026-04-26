@@ -37,9 +37,11 @@ namespace Chinook.Models
       
       var albums = ArtistContext.Albums.Where(a => a.ArtistId == artistID).ToList();
       albumPager.MaxIndex = albums.Count() - 1;
-      
-      var baseOper = GetBaseOperation(operation.Value);
-      var newPagerIndex = albumPager.ModifyCurrent(baseOper);
+      if (operation != null)
+      {
+        var baseOper = GetBaseOperation(operation.Value);
+        var newPagerIndex = albumPager.ModifyCurrent(baseOper);
+      }
       if (albumPager.MaxIndex > -1)
       {
         var album = albums[albumPager.CurrentIndex];

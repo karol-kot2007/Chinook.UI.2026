@@ -77,7 +77,7 @@ namespace Chinook.Models
       Id = artist.ArtistId;
     }
 
-    public virtual ArtistInfo CloneTyped()
+    public override ArtistInfo CloneTyped()
     {
       return (ArtistInfo)Clone();
     }
@@ -85,7 +85,7 @@ namespace Chinook.Models
   }
   public class AlbumInfo : Info
   {
-    public List<Track> Tracks { get; set; }
+    public List<Track>? Tracks { get; set; }
 
     public AlbumInfo() { }
 

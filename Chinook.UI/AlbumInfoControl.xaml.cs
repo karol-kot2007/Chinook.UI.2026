@@ -11,11 +11,11 @@ namespace Chinook.UI
   {
     public MediaPlayer Player { get; set; }
     public Mode DisplayMode { get; set; }
-    public ArtistContext ArtistId { get; set; }
-    public Track LocalPath { get; set; }
-    public Button CancelBtn { get; set; }
+    public ArtistContext? ArtistId { get; set; }
+    public Track? LocalPath { get; set; }
+    public  Button? CancelBtn { get; set; }
 
-    private Button LastPlayedButton = null;
+    private Button? LastPlayedButton = null;
 
     public AlbumInfoControl()
     {

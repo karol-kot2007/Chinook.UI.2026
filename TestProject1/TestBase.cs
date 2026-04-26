@@ -11,7 +11,7 @@ namespace Chinook.Tests
   public class TestBase
   {
     [TestInitialize]
-    protected void TestIntialize()
+    public void TestIntialize()
     {
       SQLitePCL.Batteries.Init();
     }

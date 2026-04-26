@@ -77,7 +77,7 @@
 </table>
 @code {
 	private ArtistModel model = new();
-	string ArtistName => model.MusicModel.ArtistInfo.Name;
+	string ?ArtistName => model.MusicModel.ArtistInfo.Name;
 
 	protected override void OnInitialized()
 	{

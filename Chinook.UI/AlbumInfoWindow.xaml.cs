@@ -15,7 +15,7 @@ namespace Chinook.UI
 {
   public partial class AlbumInfoWindow : Window
   {
-    public ArtistModel ArtistModel => DataContext as ArtistModel;
+    public ArtistModel? ArtistModel => DataContext as ArtistModel;
     public MusicModel AlbumInfoModel { get; private set; } = new MusicModel();
     IRepository Repository { get; set; } = null!;
     public Mode DisplayMode { get; set; }
