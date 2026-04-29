@@ -3,7 +3,6 @@
 @using Chinook.DAL
 @inject IRepository repository
 @rendermode InteractiveServer
-<div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width:1200px;">
 	<h2 class="text-center text-black px-4 py-2 rounded-2">Album info</h2>
 
 	<div class="d-flex gap-2 flex-row justify-content-center align-items-center w-100 fs-5">
@@ -40,41 +39,8 @@
 			Next
 		</button>
 	</div>
-</div>
-<table class="table m-4">
 
-	<thead>
-		<tr>
-			<th scope="col">artistName</th>
-			<th scope="col">Track name</th>
-			<th scope="col">Price</th>
-		</tr>
-	</thead>
-	<tbody class="">
 
-		@if (model.MusicModel.AlbumInfo.Tracks == null)
-		{
-			<tr>
-				<td>No Data</td>
-				<td>No Data</td>
-				<td>No Data</td>
-
-			</tr>
-		}
-		else
-		{
-			@foreach (var tracks in model.MusicModel.AlbumInfo.Tracks)
-			{
-				<tr>
-					<td>@ArtistName</td>
-					<td>@tracks.Name</td>
-					<td>@tracks.UnitPrice$</td>
-
-				</tr>
-
-			}}
-	</tbody>
-</table>
 @code{
 	private ArtistModel model = new();
 	string? ArtistName => model.MusicModel.ArtistInfo.Name;
