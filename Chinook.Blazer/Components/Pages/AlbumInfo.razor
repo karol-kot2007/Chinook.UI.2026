@@ -3,4 +3,14 @@
 @using Chinook.DAL
 @inject IRepository repository
 @rendermode InteractiveServer
-<NavigationMenu/>
+<div class="d-flex gap-3 flex-column justify-content-center align-items-center w-100 p-4 border border-dark rounded-3 container" style="max-width:1200px;">
+    <NavigationMenu OnModelUpdated="UpdateTable" model="model" />
+    <MusicInfoTable model="model" />
+</div>
+@code {
+    private ArtistModel model = new();
+    private void UpdateTable(ArtistModel newModel)
+    {
+        model = newModel;
+    }
+}

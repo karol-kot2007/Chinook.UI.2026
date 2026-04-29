@@ -1,9 +1,6 @@
 ﻿@using Chinook.Models
-@using Chinook.DAL
 @inject IRepository repository
-@rendermode InteractiveServer 
 <table class="table m-4">
-
 	<thead>
 		<tr>
 			<th scope="col">artistName</th>
@@ -27,7 +24,7 @@
 			@foreach (var tracks in model.MusicModel.AlbumInfo.Tracks)
 			{
 				<tr>
-					<td>@ArtistName</td>
+					 <td>@ArtistName</td> 
 					<td>@tracks.Name</td>
 					<td>@tracks.UnitPrice$</td>
 
@@ -39,13 +36,9 @@
 
 
 @code {
-
 	[Parameter]
-	public ArtistModel artistModel { get; set; } = null; 
-
-	private ArtistModel model = new();
-	string? ArtistName => model.MusicModel.ArtistInfo.Name;
-
+	public ArtistModel model { get; set; }
+    string? ArtistName => model.MusicModel.ArtistInfo.Name;
 	protected override void OnInitialized()
 	{
 		model = repository.BuildModel(null, Repository.Operation.NextArtist);
