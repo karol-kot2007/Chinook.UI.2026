@@ -9,12 +9,12 @@
   <Grid >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>
-      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="300"/>
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
     <Button Content="Prev" Grid.Column="0" Margin="0,0,10,0" Click="Button_Prev" MinWidth="60" Height="35" Style="{StaticResource default_button}" />
-    <TextBox  x:Name="Content" Grid.Column="1" TextAlignment="Center" Margin="0,0,0,0"  Height="35" IsReadOnly="True"  Foreground="White" Background="#FF777B7D" />
+    <TextBox  Text="e"  x:Name="Content" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,0,0"  Height="35" IsReadOnly="True"  Foreground="White" Background="#FF777B7D" />
     <Button Content="Next" Grid.Column="2" Click="Button_Next" MinWidth="60"  Height="35" Margin="10,0,0,0" Style="{StaticResource default_button}"/>
   
-  </Grid>
+  </Grid> 
 </UserControl> 
