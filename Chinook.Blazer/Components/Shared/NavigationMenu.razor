@@ -9,7 +9,7 @@
 	</button>
 
 	<label class="flex-grow-1 border border-dark rounded-3 text-black d-flex align-items-center justify-content-center shadow-sm" style="height: 45px; min-width: 200px;">
-		<span class="fw-bold">@(model.GetArtistInfo())</span>
+		<span class="fw-bold">@(model?.GetArtistInfo())</span>
 	</label>
 
 	<button type="button" class="btn btn-outline-dark shadow-lg px-4" @onclick="()=>BuildModel(op:Repository.Operation.NextArtist)">
@@ -23,13 +23,13 @@
 	</button>
 
 	<label class="flex-grow-1 border border-dark rounded-3 text-black d-flex align-items-center justify-content-center shadow-sm" style="height: 45px; min-width: 200px;">
-		@if (model.MusicModel.AlbumInfo.Tracks == null)
+		@if (model?.MusicModel.AlbumInfo.Tracks == null)
 		{
 			<span>No Data</span>
 		}
 		else
 		{
-			<span class="fw-bold">@(model.GetAlbumInfo())</span>
+			<span class="fw-bold">@(model?.GetAlbumInfo())</span>
 		}
 	</label>
 
@@ -43,7 +43,7 @@
 	[Parameter]
 	public EventCallback<ArtistModel> OnModelUpdated { get; set; }
 	[Parameter]
-	public ArtistModel model { get; set; }
+	public ArtistModel? model { get; set; }
 
 	protected override void OnInitialized()
 	{

@@ -44,15 +44,16 @@ namespace Chinook.UI
       Track LocalPath = new Track();
       var obj = ((FrameworkElement)sender).DataContext as Track;
       var btn = sender as Button;
-      if(LastPlayedButton == null)
-         LastPlayedButton = new();
-      if (btn.Content.ToString() == "Play")
+
+      if (btn != null && btn.Content.ToString() == "Play")
       {
         PlaySound();
         btn.Content = "Stop";
+        if(LastPlayedButton != null) 
         LastPlayedButton.Content = "Play";
+       
       }
-      else
+      else if(btn != null && btn.Content.ToString() == "Stop")
       {
         Player.Stop();
         btn.Content = "Play";
